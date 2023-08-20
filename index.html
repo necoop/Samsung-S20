@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung market</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+    <!-- Меню навигации -->
+    <nav class="nav container">
+        <div class="menu__left">
+            <a href="#" class="logo">Samsung Market</a>
+            <div class="slogan">Мощные, стильные смартфоны по выгодным ценам и оплатой после получения</div>
+        </div>
+        <ul class="menu__center">
+            <li><a href="#">Обзор</a></li>
+            <li><a href="#">Фото и характеристики</a></li>
+            <li><a href="#">Оплата и доставка</a></li>
+        </ul>
+        <a href="#" class="order__btn">
+            <span>
+                Заказать
+            </span>
+            <div class="basket__img"></div>
+        </a>
+        <!-- Окончание меню навигации -->
+
+        <!-- Гамбургер -->
+        <div id="hamburger__menu">
+            <input id="menu__toggle" type="checkbox">
+            <label id="menu__btn" for="menu__toggle">
+                <span></span>
+            </label>
+            <ul id="menu__box">
+                <li><a class="menu__item" href="#!">Обзор</a></li>
+                <li><a class="menu__item" href="#!">Фото и характеристики</a></li>
+                <li><a class="menu__item" href="#!">Оплата и доставка</a></li>
+            </ul>
+        </div>
+        <!-- Гамбургер окончание -->
+    </nav>
+
+    <div class="container">
+        <main class="main">
+            <div class="main__title">
+                <h3>Флагман, не имеющий компромиссов</h3>
+                <h1>Samsung Galaxy S20</h1>
+                <h3>Заказывайте S20 всего за <span>9999</span> MXN с оплатой после получения смартфона</h3>
+                <a href="#" class="ordernow__btn">
+                    <span>заказать сейчас</span>
+                    <img src="img/busket_active.svg" alt="корзина">
+                </a>
+                <ul class="benefits__box">
+                    <li class="benefits__item">
+                        <img src="img/galaxy-s20_fe_pro-grade-camera_m 1.png" alt="камера">
+                        <span>Профессиональная камера 64Мп</span>
+                    </li>
+                    <li class="benefits__item">
+                        <img src="img/galaxy-s20_fe_pro-grade-battery.png" alt="аккумулятор">
+                        <span>Емкий аккумулятор</span>
+                    </li>
+                    <li class="benefits__item">
+                        <img src="img/galaxy-s20_fe_pro-grade-proc.png" alt="процессор">
+                        <span>Инновационный процессор</span>
+                    </li>
+                </ul>
+            </div>
+            <ul class="main__slider">
+                <li class="phone__slide active">
+                    <img src="img/phone1back.png" alt="S20" class="back">
+                    <img src="img/phone1front.png" alt="S20" class="front">
+                </li>
+                <li class="phone__slide blur">
+                    <img src="img/phone2back.png" alt="S20" class="back">
+                    <img src="img/phone2front.png" alt="S20" class="front">
+                </li>
+                <li class="phone__slide">
+                    <img src="img/phone3back.png" alt="S20" class="back">
+                    <img src="img/phone3front.png" alt="S20" class="front">
+                </li>
+                <li class="phone__slide">
+                    <img src="img/phone4back.png" alt="S20" class="back">
+                    <img src="img/phone4front.png" alt="S20" class="front">
+                </li>
+            </ul>
+        </main>
+    </div>
+
+    <script src="scripts/jquery-3.7.0.min.js"></script>
+    <script src="scripts/main_slider.js"></script>
+</body>
+
+</html>

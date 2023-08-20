@@ -1,0 +1,438 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&family=Roboto&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+  min-height: 2000px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+  padding: 0 30px;
+  margin: 0 auto;
+}
+.nav,
+.menu__left,
+.menu__center,
+.order__btn {
+  display: flex;
+  align-items: center;
+}
+.nav {
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+.menu__left {
+  font-weight: 300;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 466px;
+  width: 100%;
+
+  .logo {
+    text-align: center;
+    font-size: 24px;
+    line-height: 20px;
+    width: 104px;
+    background: linear-gradient(180deg, #1456c5 0%, #002d79 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .slogan {
+    width: 322px;
+    color: var(--dark-purple, #06002b);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 14px;
+    text-align: left;
+  }
+}
+.menu__center {
+  max-width: 437px;
+  width: 100%;
+  color: var(--dark-purple, #06002b);
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 16px;
+  line-height: 140%;
+  justify-content: space-between;
+  a {
+    font-weight: 300;
+  }
+}
+.order__btn {
+  padding: 0 20px;
+  justify-content: space-between;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid var(--dark-purple, #06002b);
+  transition: 0.3s all;
+  span {
+    color: var(--dark-purple, #06002b);
+    font-feature-settings: "clig" off, "liga" off;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .basket__img {
+    margin-left: 10px;
+    background: url(../img/busket.svg);
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+  }
+  &:hover {
+    background: #057ea5;
+    span {
+      color: var(--white, #fff);
+    }
+    .basket__img {
+      background: url(../img/busket_active.svg);
+    }
+  }
+  &:active {
+    background: var(--dark-purple, #06002b);
+    span {
+      color: var(--white, #fff);
+    }
+    .basket__img {
+      background: url(../img/busket_active.svg);
+    }
+  }
+}
+
+/* Гамбургер*/
+#hamburger__menu {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+}
+#menu__toggle {
+  opacity: 0;
+}
+#menu__btn {
+  display: flex; /* используем flex для центрирования содержимого */
+  align-items: center; /* центрируем содержимое кнопки */
+  position: fixed;
+  top: 13px;
+  right: 18px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+#menu__btn > span,
+#menu__btn > span::before,
+#menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+}
+#menu__btn > span::before {
+  content: "";
+  top: -8px;
+}
+#menu__btn > span::after {
+  content: "";
+  top: 8px;
+}
+#menu__box {
+  display: block;
+  position: fixed;
+  visibility: hidden;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 65px 0 0 46px;
+  list-style: none;
+  text-align: start;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
+
+  color: var(--dark-purple, #06002b);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 140%;
+} /* элементы меню */
+.menu__item {
+  display: block;
+  color: #000;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+}
+#menu__box > :not(:first-child) {
+  margin-top: 66px;
+}
+#menu__toggle {
+  position: fixed;
+}
+#menu__toggle:checked ~ #menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked ~ #menu__btn > span::before {
+  top: 0;
+  transform: rotate(0);
+}
+#menu__toggle:checked ~ #menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+#menu__toggle:checked ~ #menu__box {
+  visibility: visible;
+  left: 0;
+}
+#menu__btn > span,
+#menu__btn > span::before,
+#menu__btn > span::after {
+  transition-duration: 0.25s;
+}
+#menu__box {
+  transition-duration: 0.25s;
+}
+.menu__item {
+  transition-duration: 0.25s;
+}
+/* Гамбургер окончание */
+
+// Включаем отображение гамбургера
+@media (max-width: 1199px) {
+  #hamburger__menu {
+    display: block;
+  }
+  .menu__center,
+  .order__btn {
+    display: none;
+  }
+  .slogan {
+    margin-right: 10px;
+  }
+}
+@media (max-width: 499px) {
+  .slogan {
+    display: none;
+  }
+}
+
+// Секция main
+.main__title {
+  min-width: 481px;
+  width: 481px;
+  h3 {
+    color: var(--dark-purple, #06002b);
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1.42;
+    span {
+      color: #e53125;
+      font-family: Inter;
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 34px;
+    }
+  }
+  h1 {
+    color: var(--dark-purple, #06002b);
+    font-family: Inter;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 20px;
+  }
+  .ordernow__btn {
+    margin: 50px 0 150px;
+    padding: 20px 40px;
+    border-radius: 5px;
+    background: #06002b;
+    display: inline-block;
+    color: #fff;
+    transition: 0.3s all;
+    span {
+      margin-right: 10px;
+      text-transform: uppercase;
+    }
+    &:hover {
+      background: #057ea5;
+    }
+    &:active {
+      background: #06002b;
+    }
+  }
+}
+.benefits__box {
+  display: flex;
+  justify-content: space-between;
+  img {
+    margin-top: 10px;
+    width: 70px;
+    height: 80px;
+  }
+}
+.benefits__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 140px;
+  width: 100%;
+  span {
+    color: var(--dark-purple, #06002b);
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: normal;
+    margin: 15px 0 10px;
+  }
+}
+.main {
+  display: flex;
+  width: 1485px;
+  float: right;
+  margin-top: 170px;
+  overflow: hidden;
+}
+.main__slider {
+  // width: 1617px;
+  width: 906px;
+  margin: 60px 0 0 98px;
+  display: flex;
+  align-items: end;
+  // align-self: start;
+  // height: 580px;
+  height: 585px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  overflow-y: auto;
+  .front {
+    max-height: 580px;
+  }
+}
+.blur {
+  filter: blur(5px);
+}
+.phone__slide {
+  position: absolute;
+  width: 331px;
+  height: 340px;
+  margin-bottom: 5px;
+  img {
+    height: 100%;
+  }
+  .front {
+    position: absolute;
+    margin-left: -52.5%;
+  }
+  transition: ease 0.3s all;
+}
+.phone__slide.active {
+  // width: 565px;
+  // height: 580px;
+  max-width: 565px;
+  max-height: 580px;
+  width: 100%;
+  height: 100%;
+  img {
+    height: 100%;
+  }
+}
+@media (max-width: 1599px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    float: none;
+  }
+  .main__slider {
+    margin-left: 0;
+  }
+}
+@media (max-width: 940px) {
+  .main__slider {
+    width: 565px;
+  }
+  .phone__slide {
+    margin-bottom: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    img{
+      width: 100%;
+      max-width: 431px;
+      height: auto;
+    }
+  }
+}
+@media (max-width: 625px) {
+  .main {
+    width: 100%;
+    .back {
+      // display: none;
+      width: 100%;
+    }
+    .front {
+      margin-left: 0;
+      width: 100%;
+      height: auto;
+    }
+  }
+  .main__slider {
+    width: 100%;
+    max-width: 565px;
+  }
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .phone__slide.active {
+    height: fit-content;
+    max-height: none;
+    top: 0;
+    img {
+      height: auto;
+    }
+  }
+  .phone__slide .front {
+    margin-left: -297px;
+  }
+  .phone__slide {
+    margin-bottom: 0;
+    height: 100%;
+    .front {
+      height: 100%;
+    }
+    width: 100%;
+    height: fit-content;
+    img{
+      max-width: 431px;
+    }
+  }
+
+}
+@media(max-width: 565px){
+  .phone__slide{
+    .front{
+      margin-left: -52.5%;
+    }
+  }
+  .main{
+    .back, .front{
+      width: 76.3%;
+    }
+  }
+}
