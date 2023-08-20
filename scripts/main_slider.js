@@ -149,9 +149,6 @@ mainSlider.mousedown(function (event) {
   });
 });
 
-// let inertiaShift = 0;
-// let inertiaVelocity = 0.99; // Коэффициент затухания инерции
-// let isScrolling = false;
 let elementLeft = 0;
 mainSlider.on("touchstart", function (event) {
   startDraggin = true;
@@ -169,8 +166,8 @@ $(document).on("touchmove", function (event) {
       if (parseInt(dragginShift) > 420) {
         dragginShift = 420;
       }
-      if (parseInt(dragginShift) < -585) {
-        dragginShift = -585;
+      if (parseInt(dragginShift) < -300) {
+        dragginShift = -300;
       }
       $(".phone__slide").css("transform", `translateX(${dragginShift}px)`);
     }
@@ -181,47 +178,45 @@ $(document).on("touchend", function () {
   if (startDraggin) {
     startDraggin = false;
     canClick = true;
-    if (dragginShift < 40) {
-      $(".phone__slide").eq(1).removeClass("blur");
-      $(".phone__slide").css("transition", "ease 0.3s all");
-      $(".phone__slide").css("transform", "translateX(-585px)");
-      newSlide = $(".phone__slide").eq(0).remove();
-      $(".main__slider").append(newSlide);
-      $(".phone__slide").each(function (index, element) {
-        $(element).css({
-          left: `${index * 585}px`,
-          transform: "none",
-        });
+    let timeScroll;
+    $(".phone__slide").each(function (index, element) {
+      let elementX = parseInt($(element).css("left"));
+      timeScroll = (dragginShift + 580) / (580 / 0.3);
+      elementX = elementX + dragginShift;
+      $(element).css({
+        left: `${elementX}px`,
+        transform: "none",
+        transition: `ease ${timeScroll}s all`,
       });
-    } else if (dragginShift > 20) {
-      $(".phone__slide").css("transition", "ease 0.3s all");
-      $(".phone__slide").css("transform", "translateX(585px)");
-      floatRight();
-    }
-    $(".phone__slide").css({
-      transition: "ease 0.3s all",
-      transform: "none",
     });
+    $(".phone__slide").css("transform", `translateX(${-dragginShift - 580}px)`);
 
-    // $(".phone__slide").css("transform", 0);
+    $('.phone__slide').each(function(index, element){
+      
+      console.log(parseInt($(element).css('transform').match(/(-?\d+(\.\d+)?)/)))
+    })
 
-    // isScrolling = true;
-    // inertiaShift = dragginShift;
-    // animateInertia();
+    // if (dragginShift < 40) {
+    //   $(".phone__slide").eq(1).removeClass("blur");
+    //   $(".phone__slide").css("transition", "ease 0.3s all");
+    //   $(".phone__slide").css("transform", "translateX(-585px)");
+    //   newSlide = $(".phone__slide").eq(0).remove();
+    //   $(".main__slider").append(newSlide);
+    //   $(".phone__slide").each(function (index, element) {
+    //     $(element).css({
+    //       left: `${index * 585}px`,
+    //       transform: "none",
+    //     });
+    //   });
+    // } else if (dragginShift > 20) {
+    //   $(".phone__slide").css("transition", "ease 0.3s all");
+    //   $(".phone__slide").css("transform", "translateX(585px)");
+    //   floatRight();
+    // }
+    // $(".phone__slide").css({
+    //   transition: "ease 0.3s all",
+    //   transform: "none",
+    // });
   }
   fromTouch = false;
 });
-
-// function animateInertia() {
-//   if (isScrolling) {
-//     inertiaShift *= inertiaVelocity;
-//     $(".phone__slide").css("transform", `translateX(${inertiaShift}px)`);
-
-//     if (Math.abs(inertiaShift) > 0.1) {
-//       requestAnimationFrame(animateInertia);
-//     } else {
-//       isScrolling = false;
-//       $(".phone__slide").css("transition", "ease 0.3s all");
-//     }
-//   }
-// }
