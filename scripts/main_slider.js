@@ -1,20 +1,33 @@
+let phoneSlide = $(".phone__slide");
+
 // Размещение элементов слайдера
 $(".phone__slide").each(function (index, element) {
   $(element).css("left", index * 585 + "px");
 });
 
 function getTransform(element) {
-  return getTranslateXValue(element.css('transform'));
+  return getTranslateXValue(element.css("transform"));
 }
 
 // Функция возврата значения transform
 function getTranslateXValue(transformValue) {
-  // Разбиваем матрицу на компоненты
-  let matrix = transformValue.match(/^matrix\(([^\)]+)\)$/)[1].split(', ');
+  if (transformValue && transformValue !== "none") {
+    // Разбиваем матрицу на компоненты
+    let matrix = transformValue.match(/^matrix\(([^\)]+)\)$/)[1].split(", ");
 
-  // Возвращаем значение по индексу 4 (translateX)
-  return parseInt(matrix[4]);
+    // Возвращаем значение по индексу 4 (translateX)
+    return parseInt(matrix[4]);
+  }
+  return 0; // Возвращаем 0, если свойство transform отсутствует
 }
+
+$.fn.elementTransformMoveX = function (distance) {
+  return this.each(function () {
+    let transformX = getTransform($(this));
+    let newTransformX = transformX + distance;
+    $(this).css("transform", `translateX(${newTransformX}px)`);
+  });
+};
 
 // Устанавливаем возможность первой прокрутки слайдера
 let canExecute = true;
@@ -164,12 +177,14 @@ mainSlider.mousedown(function (event) {
 });
 
 let elementLeft = 0;
+
 mainSlider.on("touchstart", function (event) {
   startDraggin = true;
   startPoint = event.touches[0].clientX;
   event.preventDefault();
 });
-
+let prevPoint = 0;
+let currentPoint = 0;
 $(document).on("touchmove", function (event) {
   if (startDraggin) {
     fromTouch = true;
@@ -183,48 +198,44 @@ $(document).on("touchmove", function (event) {
       if (parseInt(dragginShift) < -300) {
         dragginShift = -300;
       }
-      $(".phone__slide").css("transform", `translateX(${dragginShift}px)`);
+      currentPoint = dragginShift;
+      phoneSlide.elementTransformMoveX(currentPoint - prevPoint);
+      prevPoint = currentPoint;
     }
   }
 });
 
 $(document).on("touchend", function () {
   if (startDraggin) {
+    currentPoint = 0;
+    prevPoint = 0;
     startDraggin = false;
     canClick = true;
 
     // Оставшееся время для автоматического скролла
     let timeScroll = (dragginShift + 585) / (585 / 0.3);
+    // console.log('element4 = ' + getTransform(phoneSlide.eq(3)) + 'dragginShift = ' + dragginShift)
+    getTransform(phoneSlide.eq(3))
+    phoneSlide.css("transition", `ease ${timeScroll}s all`);
+    phoneSlide.each(function (index, element) {
+      let shiftDistance = -585 - dragginShift;
 
-    $('.phone__slide').each(function (index, element) {
-      let newCoordX = getTranslateXValue($(element).css('transform')) + (-585 - dragginShift);
-      console.log($(element))
-      $(element).css({
-        transition: `ease ${timeScroll}s all`,
-        transform: `translateX(${newCoordX}px)`
-      })
-      $(element).one('transitionend', function () {
-        console.log(getTransform($(element)))
-        if (getTranslateXValue($(element).css('transform')) + parseInt($(element).css('left')) === -585) {
-          setFirstSlide(index);
+      // Смещение элемента после Touchend
+      setTimeout(function(){
+        $(element).elementTransformMoveX(shiftDistance);
+      }, 0)
+
+      $(element).one("transitionend", function () {
+        if (getTransform($(element)) + parseInt($(element).css("left")) < 0) {
+          $(element).addClass("no-transition");
+          $(element).elementTransformMoveX((phoneSlide.length) * 585);
+          setTimeout(function () {
+            $(element).removeClass("no-transition");
+          }, 0);
         }
-      })
-    })
-
-    $('.phone__slide').css('transition', 'ease 0.3s all');
-
-    function setFirstSlide(index) {
-      $(".phone__slide").eq(index).addClass('no-transition');
-
-      // Задаем новое значение для transform без анимации
-      $(".phone__slide").eq(index).css("transform", "translateX(1755px)");
-
-      // Нулевая задержка
-      setTimeout(function () {
-        $(".phone__slide").eq(index).removeClass('no-transition');
-      }, 0);
-    }
-    console.log(getTransform($('.phone__slide').eq(0)));
+        $(element).css("transition", "ease 0.3s all");
+      });
+    });
   }
   fromTouch = false;
 });
