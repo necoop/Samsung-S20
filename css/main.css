@@ -347,7 +347,6 @@ body {
   width: 331px;
   height: 340px;
   margin-bottom: 5px;
-  transition: ease 0.3s all;
 }
 .phone__slide img {
   height: 100%;
@@ -451,6 +450,12 @@ body {
     width: 76.3%;
   }
 }
+.phone__slide img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
 .no-transition {
   transition: none !important;
 }/*# sourceMappingURL=main.css.map */

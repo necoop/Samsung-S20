@@ -336,7 +336,7 @@ body {
     position: absolute;
     margin-left: -52.5%;
   }
-  transition: ease 0.3s all;
+  // transition: ease 0.3s all;
 }
 .phone__slide.active {
   // width: 565px;
@@ -436,6 +436,11 @@ body {
     }
   }
 }
+
+.phone__slide img{
+  user-select: none;
+}
+
 
 .no-transition{
   transition: none !important;
