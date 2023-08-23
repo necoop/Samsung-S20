@@ -22,39 +22,93 @@ $.fn.moveByTranslateX = function (distance) {
   });
 };
 
+// Метод для присвоения значений translateX массиву startTranslateX
+Array.prototype.recTranslateXCoord = function (slide) {
+  for (let i = 0; i < slide.length; i++) {
+    this[i] = getTranslateX(slide.eq(i));
+  }
+}
+
 const mainSlider = $(".main__slider");
 const phoneSlide = $(".phone__slide");
 let clickStartX;
+let touchStartX = 0;
 let mouseDown = false;
+let touchDown = false;
 let mouseShiftX = 0;
-let currentPoint;
-let prevPoint = 0;
+let touchShiftX = 0;
 let startTranslateX = [];
+let activeSlide = $('.phone__slide.active');
+let activeSlideNumber = 0;
 
 // Первоначальная расстановка элементов
 phoneSlide.each(function (index, element) {
   $(element).css("transform", `translateX(${index * 585}px)`);
 });
 
-mainSlider.on("mousedown", function (event) {
-  clickStartX = event.clientX;
-  mouseDown = true;
-  phoneSlide.each(function (index, element) {
-    startTranslateX[index] = getTranslateX($(element));
-  });
+mainSlider.on("touchstart", function (event) {
+  touchDown = true;
+
+  // Сохраняем начальную точку сдвига
+  touchStartX = event.touches[0].screenX;
+
+  startTranslateX.recTranslateXCoord(phoneSlide);
+
+  phoneSlide.css('transition', 'none');
 });
 
-$(document).on("mousemove", function (event) {
-  if (mouseDown) {
-    mouseShiftX = event.clientX - clickStartX;
+$(document).on("touchmove", function (event) {
+  if (touchDown) {
+    // Вычисление сдвига слайдера от начальной точки
+    touchShiftX = event.touches[0].screenX - touchStartX;
+
+    // Ограничение максимального сдвига слайда вручную
+    if (touchShiftX > 585 * .75) {
+      touchShiftX = 585 * .75;
+    } else if (touchShiftX < -585 * .75) {
+      touchShiftX = -585 * .75;
+    }
+
+    // Перемещение слайдов
     phoneSlide.each(function (index, element) {
-    phoneSlide.eq(index).moveByTranslateX(mouseShiftX - prevPoint);
+      $(element).css('transform', `translateX(${touchShiftX + startTranslateX[index]}px)`);
     });
-    // phoneSlide.moveByTranslateX(mouseShiftX - prevPoint + clickStartX);
-    prevPoint = mouseShiftX;
   }
 });
 
-$(document).on("mouseup", function (event) {
-  mouseDown = false;
+$(document).on("touchend", function (event) {
+  startTranslateX.recTranslateXCoord(phoneSlide);
+  touchDown = false;
+
+  // Определяем координаты активного слайда
+  let activeSlideTransformX;
+  activeSlideTransformX = getTranslateX($('.phone__slide.active'));
+
+  //Определяем направление движения слайдера
+  let direction;
+  const risk = 0.25;
+  if (activeSlideTransformX < risk * -585) {
+    direction = 'onLeft';
+  } else if (activeSlideTransformX > risk * 585) {
+    direction = 'onRight';
+  } else {
+    direction = 'onPrevious';
+  }
+
+  //Вычисляем время перемотки
+  let timeToScroll = (585 - Math.abs(activeSlideTransformX)) / 585 * 0.3;
+  phoneSlide.css('transition', `ease ${timeToScroll}s all`);
+
+  if (direction === 'onLeft') {
+    console.log(activeSlideNumber)
+    phoneSlide.each(function (index, element) {
+      $(element).moveByTranslateX((index - (activeSlideNumber + 1)) * 585 - startTranslateX[index]);
+    })
+    phoneSlide.eq(activeSlideNumber).removeClass('active');
+    phoneSlide.eq(activeSlideNumber).addClass('no-transition');
+    phoneSlide.eq(activeSlideNumber).css('transform', `translateX(${Math.abs((index - activeSlideNumber)%phoneSlide.length)*585}px)`);
+    activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
+    phoneSlide.eq(activeSlideNumber).addClass('active');
+  }
+
 });
