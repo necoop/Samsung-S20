@@ -446,7 +446,8 @@ body {
   .phone__slide .front {
     margin-left: -52.5%;
   }
-  .main .back, .main .front {
+  .main .back,
+  .main .front {
     width: 76.3%;
   }
 }
@@ -458,4 +459,8 @@ body {
 
 .no-transition {
   transition: none !important;
+}
+
+.no-visibility {
+  visibility: hidden;
 }/*# sourceMappingURL=main.css.map */

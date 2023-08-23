@@ -27,10 +27,34 @@ Array.prototype.recTranslateXCoord = function (slide) {
   for (let i = 0; i < slide.length; i++) {
     this[i] = getTranslateX(slide.eq(i));
   }
+};
+
+// Первоначальная расстановка элементов
+const mainSlider = $(".main__slider");
+let phoneSlide = $(".phone__slide");
+
+const cloneNumber = 6 / $(".phone__slide").length;
+if (cloneNumber > 1) {
+  for (let i = 0; i < cloneNumber - 1; i++) {
+    for (let j = 0; j < phoneSlide.length; j++) {
+      let newElement = $(".phone__slide").eq(j).clone();
+      if (newElement.hasClass("active")) {
+        newElement.removeClass("active");
+      }
+      mainSlider.append(newElement);
+    }
+  }
+}
+phoneSlide = $(".phone__slide");
+for (let i = 0; i < phoneSlide.length - 2; i++) {
+  phoneSlide.eq(i).css("transform", `translateX(${i * 585}px)`);
+}
+for (let i = phoneSlide.length - 2; i < phoneSlide.length; i++) {
+  phoneSlide
+    .eq(i)
+    .css("transform", `translateX(${(i - phoneSlide.length) * 585}px)`);
 }
 
-const mainSlider = $(".main__slider");
-const phoneSlide = $(".phone__slide");
 let clickStartX;
 let touchStartX = 0;
 let mouseDown = false;
@@ -38,13 +62,19 @@ let touchDown = false;
 let mouseShiftX = 0;
 let touchShiftX = 0;
 let startTranslateX = [];
-let activeSlide = $('.phone__slide.active');
 let activeSlideNumber = 0;
 
+startTranslateX.recTranslateXCoord(phoneSlide);
+
 // Первоначальная расстановка элементов
-phoneSlide.each(function (index, element) {
-  $(element).css("transform", `translateX(${index * 585}px)`);
-});
+// phoneSlide.each(function (index, element) {
+//   $(element).css("transform", `translateX(${index * 585}px)`);
+// });
+
+// for (let i = 0; i < phoneSlide.length - 1; i++) {
+//   phoneSlide.eq(i).css("transform", `translateX(${i * 585}px)`);
+// }
+// phoneSlide.eq(phoneSlide.length).css("transform", `translatex(0)`);
 
 mainSlider.on("touchstart", function (event) {
   touchDown = true;
@@ -52,9 +82,7 @@ mainSlider.on("touchstart", function (event) {
   // Сохраняем начальную точку сдвига
   touchStartX = event.touches[0].screenX;
 
-  startTranslateX.recTranslateXCoord(phoneSlide);
-
-  phoneSlide.css('transition', 'none');
+  phoneSlide.css("transition", "none");
 });
 
 $(document).on("touchmove", function (event) {
@@ -63,15 +91,18 @@ $(document).on("touchmove", function (event) {
     touchShiftX = event.touches[0].screenX - touchStartX;
 
     // Ограничение максимального сдвига слайда вручную
-    if (touchShiftX > 585 * .75) {
-      touchShiftX = 585 * .75;
-    } else if (touchShiftX < -585 * .75) {
-      touchShiftX = -585 * .75;
+    if (touchShiftX > 585 * 0.75) {
+      touchShiftX = 585 * 0.75;
+    } else if (touchShiftX < -585 * 0.75) {
+      touchShiftX = -585 * 0.75;
     }
 
     // Перемещение слайдов
     phoneSlide.each(function (index, element) {
-      $(element).css('transform', `translateX(${touchShiftX + startTranslateX[index]}px)`);
+      $(element).css(
+        "transform",
+        `translateX(${touchShiftX + startTranslateX[index]}px)`
+      );
     });
   }
 });
@@ -82,33 +113,40 @@ $(document).on("touchend", function (event) {
 
   // Определяем координаты активного слайда
   let activeSlideTransformX;
-  activeSlideTransformX = getTranslateX($('.phone__slide.active'));
+  activeSlideTransformX = getTranslateX($(".phone__slide.active"));
 
   //Определяем направление движения слайдера
   let direction;
-  const risk = 0.25;
+  const risk = 0.5;
   if (activeSlideTransformX < risk * -585) {
-    direction = 'onLeft';
+    direction = "onLeft";
   } else if (activeSlideTransformX > risk * 585) {
-    direction = 'onRight';
+    direction = "onRight";
   } else {
-    direction = 'onPrevious';
+    direction = "onPrevious";
   }
 
   //Вычисляем время перемотки
-  let timeToScroll = (585 - Math.abs(activeSlideTransformX)) / 585 * 0.3;
-  phoneSlide.css('transition', `ease ${timeToScroll}s all`);
+  let timeToScroll = ((585 - Math.abs(activeSlideTransformX)) / 585) * 0.3;
+  phoneSlide.css("transition", `ease ${timeToScroll}s all`);
 
-  if (direction === 'onLeft') {
-    console.log(activeSlideNumber)
-    phoneSlide.each(function (index, element) {
-      $(element).moveByTranslateX((index - (activeSlideNumber + 1)) * 585 - startTranslateX[index]);
-    })
-    phoneSlide.eq(activeSlideNumber).removeClass('active');
-    phoneSlide.eq(activeSlideNumber).addClass('no-transition');
-    phoneSlide.eq(activeSlideNumber).css('transform', `translateX(${Math.abs((index - activeSlideNumber)%phoneSlide.length)*585}px)`);
+  if (direction === "onLeft") {
+    for (let i = 0; i < phoneSlide.length - 2; i++) {
+      phoneSlide
+        .eq(i)
+        .css("transform", `translateX(${(i - activeSlideNumber - 1) * 585}px)`);
+    }
+    for (let i = phoneSlide.length - 2; i < phoneSlide.length; i++) {
+      phoneSlide
+        .eq(i)
+        .css("transform", `translateX(${(i - phoneSlide.length - 1) * 585}px)`);
+    }
     activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
-    phoneSlide.eq(activeSlideNumber).addClass('active');
+    phoneSlide.eq(phoneSlide.length-1).on('transitionend', function(){
+      startTranslateX.recTranslateXCoord(phoneSlide);
+      console.log(startTranslateX);
+    })
+
   }
 
 });
