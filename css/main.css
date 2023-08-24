@@ -457,10 +457,6 @@ body {
           user-select: none;
 }
 
-.no-transition {
-  transition: none !important;
-}
-
 .no-visibility {
   visibility: hidden;
 }/*# sourceMappingURL=main.css.map */

@@ -1,18 +1,3 @@
-//Функция возврата значения TranslateX в пикселях
-function getTranslateX(transformValue) {
-  if (transformValue && transformValue !== "none") {
-    // Разбиваем матрицу на компоненты
-    let matrix = transformValue
-      .css("transform")
-      .match(/^matrix\(([^\)]+)\)$/)[1]
-      .split(", ");
-
-    // Возвращаем значение по индексу 4 (translateX)
-    return parseInt(matrix[4]);
-  }
-  return 0; // Возвращаем 0, если свойство transform отсутствует
-}
-
 // Метод сдвига по оси X на заданное значение в пикселях
 $.fn.moveByTranslateX = function (distance) {
   return this.each(function () {
@@ -32,12 +17,15 @@ Array.prototype.recTranslateXCoord = function (slide) {
 // Первоначальная расстановка элементов
 const mainSlider = $(".main__slider");
 let phoneSlide = $(".phone__slide");
+phoneSlide.each(function (index, element) {
+  $(element).css("transform", "translateX(0px)");
+});
 
-const cloneNumber = 6 / $(".phone__slide").length;
+const cloneNumber = 6 / phoneSlide.length;
 if (cloneNumber > 1) {
   for (let i = 0; i < cloneNumber - 1; i++) {
     for (let j = 0; j < phoneSlide.length; j++) {
-      let newElement = $(".phone__slide").eq(j).clone();
+      let newElement = phoneSlide.eq(j).clone();
       if (newElement.hasClass("active")) {
         newElement.removeClass("active");
       }
@@ -46,14 +34,6 @@ if (cloneNumber > 1) {
   }
 }
 phoneSlide = $(".phone__slide");
-for (let i = 0; i < phoneSlide.length - 2; i++) {
-  phoneSlide.eq(i).css("transform", `translateX(${i * 585}px)`);
-}
-for (let i = phoneSlide.length - 2; i < phoneSlide.length; i++) {
-  phoneSlide
-    .eq(i)
-    .css("transform", `translateX(${(i - phoneSlide.length) * 585}px)`);
-}
 
 let clickStartX;
 let touchStartX = 0;
@@ -64,24 +44,14 @@ let touchShiftX = 0;
 let startTranslateX = [];
 let activeSlideNumber = 0;
 
+slideUp();
 startTranslateX.recTranslateXCoord(phoneSlide);
 
-// Первоначальная расстановка элементов
-// phoneSlide.each(function (index, element) {
-//   $(element).css("transform", `translateX(${index * 585}px)`);
-// });
-
-// for (let i = 0; i < phoneSlide.length - 1; i++) {
-//   phoneSlide.eq(i).css("transform", `translateX(${i * 585}px)`);
-// }
-// phoneSlide.eq(phoneSlide.length).css("transform", `translatex(0)`);
-
 mainSlider.on("touchstart", function (event) {
-  touchDown = true;
-
   // Сохраняем начальную точку сдвига
   touchStartX = event.touches[0].screenX;
 
+  touchDown = true;
   phoneSlide.css("transition", "none");
 });
 
@@ -116,30 +86,63 @@ $(document).on("touchend", function (event) {
   if (getTranslateX(phoneSlide.eq(activeSlideNumber)) < risk * -585) {
     activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
   } else if (getTranslateX(phoneSlide.eq(activeSlideNumber)) > risk * 585) {
-    activeSlideNumber = (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length
+    activeSlideNumber =
+      (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
   }
+  slideUp();
+});
 
+//Перемотка
+function slideUp() {
   //Вычисляем и устанавливаем время перемотки
-  let timeToScroll = (Math.abs(getTranslateX(phoneSlide.eq(0))) / 585 % 1) * 0.6;
+  let timeToScroll =
+    ((Math.abs(getTranslateX(phoneSlide.eq(0))) / 585) % 1) * 0.6;
   phoneSlide.css("transition", `ease ${timeToScroll}s all`);
-
-  //Перемотка
   for (let i = 0; i < phoneSlide.length; i++) {
-    let stepCoord = (i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length - 2;
-    phoneSlide
-      .eq(i)
-      .css("transform", `translateX(${stepCoord * 585}px)`);
-    if ((stepCoord === phoneSlide.length - 3) || (stepCoord === -2)) {
-      if (!phoneSlide.eq(i).hasClass('no-visibility')) {
-        phoneSlide.eq(i).addClass('no-visibility');
+    let stepCoord =
+      ((i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length) - 2;
+    phoneSlide.eq(i).css("transform", `translateX(${stepCoord * 585}px)`);
+    if (stepCoord === phoneSlide.length - 3 || stepCoord === -2) {
+      if (!phoneSlide.eq(i).hasClass("no-visibility")) {
+        phoneSlide.eq(i).addClass("no-visibility");
       }
     } else {
-      if (phoneSlide.eq(i).hasClass('no-visibility')) {
-        phoneSlide.eq(i).removeClass('no-visibility');
+      if (phoneSlide.eq(i).hasClass("no-visibility")) {
+        phoneSlide.eq(i).removeClass("no-visibility");
+      }
+    }
+    if (stepCoord === 0) {
+      phoneSlide.eq(i).addClass("active");
+    } else {
+      if (phoneSlide.eq(i).hasClass("active")) {
+        phoneSlide.eq(i).removeClass("active");
+      }
+    }
+    if (stepCoord === 1) {
+      phoneSlide.eq(i).addClass("blur");
+    } else {
+      if (phoneSlide.eq(i).hasClass("blur")) {
+        phoneSlide.eq(i).removeClass("blur");
       }
     }
   }
-  phoneSlide.eq(phoneSlide.length - 1).one('transitionend', function () {
+  phoneSlide.eq(phoneSlide.length - 1).one("transitionend", function () {
     startTranslateX.recTranslateXCoord(phoneSlide);
-  })
-});
+  phoneSlide.css('transition', 'none');
+
+  });
+}
+
+//Функция возврата значения TranslateX в пикселях
+function getTranslateX(transformValue) {
+  if (transformValue && transformValue !== "none") {
+    // Разбиваем матрицу на компоненты
+    let matrix = transformValue
+      .css("transform")
+      .match(/^matrix\(([^\)]+)\)$/)[1]
+      .split(", ");
+    // Возвращаем значение по индексу 4 (translateX)
+    return parseInt(matrix[4]);
+  }
+  return 0; // Возвращаем 0, если свойство transform отсутствует
+}
