@@ -2,7 +2,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&family=Roboto&display=swap");
 body {
   font-family: "Inter", sans-serif;
-  min-height: 2000px;
 }
 
 .container {
@@ -120,8 +119,10 @@ body {
 }
 
 #menu__btn {
-  display: flex; /* используем flex для центрирования содержимого */
-  align-items: center; /* центрируем содержимое кнопки */
+  display: flex;
+  /* используем flex для центрирования содержимого */
+  align-items: center;
+  /* центрируем содержимое кнопки */
   position: fixed;
   top: 13px;
   right: 18px;
@@ -171,7 +172,9 @@ body {
   font-size: 16px;
   font-weight: 300;
   line-height: 140%;
-} /* элементы меню */
+}
+
+/* элементы меню */
 .menu__item {
   display: block;
   color: #000;
@@ -459,4 +462,8 @@ body {
 
 .no-visibility {
   visibility: hidden;
+}
+
+.no-scroll-mobile {
+  overflow-y: hidden;
 }/*# sourceMappingURL=main.css.map */

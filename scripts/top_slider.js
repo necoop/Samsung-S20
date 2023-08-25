@@ -1,3 +1,48 @@
+//Определяем мобильный или стационарный браузер
+let userAgentMobile;
+// Получение строки User Agent
+var userAgent = navigator.userAgent;
+
+// Проверка наличия некоторых ключевых слов, характерных для мобильных устройств
+if (userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i)) {
+  userAgentMobile = true;
+} else {
+  userAgentMobile = false;
+}
+console.log(userAgent)
+console.log(userAgentMobile)
+
+//Предзагрузка изображений
+const imageUrls = [];
+$('.phone__slide img').each(function (index, element) {
+  imageUrls[index] = $(element).attr('src');
+})
+function preloadImages(imageUrls, callback) {
+  let loadedImages = 0;
+  const totalImages = imageUrls.length;
+
+  function imageLoaded() {
+    loadedImages++;
+    if (loadedImages === totalImages) {
+      callback();
+    }
+  }
+
+  for (const imageUrl of imageUrls) {
+    const img = new Image();
+    img.onload = imageLoaded;
+    img.src = imageUrl;
+  }
+}
+
+// Запускаем предварительную загрузку
+// preloadImages(imageUrls, function () {
+// Все изображения загружены, можно продолжать выполнение кода
+// console.log("Изображения загружены!");
+// });
+
+preloadImages(imageUrls, topSlider);
+
 // Метод сдвига по оси X на заданное значение в пикселях
 $.fn.moveByTranslateX = function (distance) {
   return this.each(function () {
@@ -21,118 +66,6 @@ phoneSlide.each(function (index, element) {
   $(element).css("transform", "translateX(0px)");
 });
 
-const cloneNumber = 6 / phoneSlide.length;
-if (cloneNumber > 1) {
-  for (let i = 0; i < cloneNumber - 1; i++) {
-    for (let j = 0; j < phoneSlide.length; j++) {
-      let newElement = phoneSlide.eq(j).clone();
-      if (newElement.hasClass("active")) {
-        newElement.removeClass("active");
-      }
-      mainSlider.append(newElement);
-    }
-  }
-}
-phoneSlide = $(".phone__slide");
-
-let clickStartX;
-let touchStartX = 0;
-let mouseDown = false;
-let touchDown = false;
-let mouseShiftX = 0;
-let touchShiftX = 0;
-let startTranslateX = [];
-let activeSlideNumber = 0;
-
-slideUp();
-startTranslateX.recTranslateXCoord(phoneSlide);
-
-mainSlider.on("touchstart", function (event) {
-  // Сохраняем начальную точку сдвига
-  touchStartX = event.touches[0].screenX;
-
-  touchDown = true;
-  phoneSlide.css("transition", "none");
-});
-
-$(document).on("touchmove", function (event) {
-  if (touchDown) {
-    // Вычисление сдвига слайдера от начальной точки
-    touchShiftX = event.touches[0].screenX - touchStartX;
-
-    // Ограничение максимального сдвига слайда вручную
-    if (touchShiftX > 585 * 0.75) {
-      touchShiftX = 585 * 0.75;
-    } else if (touchShiftX < -585 * 0.75) {
-      touchShiftX = -585 * 0.75;
-    }
-
-    // Перемещение слайдов
-    phoneSlide.each(function (index, element) {
-      $(element).css(
-        "transform",
-        `translateX(${touchShiftX + startTranslateX[index]}px)`
-      );
-    });
-  }
-});
-
-$(document).on("touchend", function (event) {
-  startTranslateX.recTranslateXCoord(phoneSlide);
-  touchDown = false;
-
-  //Определяем направление движения слайдера
-  const risk = 0.5;
-  if (getTranslateX(phoneSlide.eq(activeSlideNumber)) < risk * -585) {
-    activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
-  } else if (getTranslateX(phoneSlide.eq(activeSlideNumber)) > risk * 585) {
-    activeSlideNumber =
-      (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
-  }
-  slideUp();
-});
-
-//Перемотка
-function slideUp() {
-  //Вычисляем и устанавливаем время перемотки
-  let timeToScroll =
-    ((Math.abs(getTranslateX(phoneSlide.eq(0))) / 585) % 1) * 0.6;
-  phoneSlide.css("transition", `ease ${timeToScroll}s all`);
-  for (let i = 0; i < phoneSlide.length; i++) {
-    let stepCoord =
-      ((i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length) - 2;
-    phoneSlide.eq(i).css("transform", `translateX(${stepCoord * 585}px)`);
-    if (stepCoord === phoneSlide.length - 3 || stepCoord === -2) {
-      if (!phoneSlide.eq(i).hasClass("no-visibility")) {
-        phoneSlide.eq(i).addClass("no-visibility");
-      }
-    } else {
-      if (phoneSlide.eq(i).hasClass("no-visibility")) {
-        phoneSlide.eq(i).removeClass("no-visibility");
-      }
-    }
-    if (stepCoord === 0) {
-      phoneSlide.eq(i).addClass("active");
-    } else {
-      if (phoneSlide.eq(i).hasClass("active")) {
-        phoneSlide.eq(i).removeClass("active");
-      }
-    }
-    if (stepCoord === 1) {
-      phoneSlide.eq(i).addClass("blur");
-    } else {
-      if (phoneSlide.eq(i).hasClass("blur")) {
-        phoneSlide.eq(i).removeClass("blur");
-      }
-    }
-  }
-  phoneSlide.eq(phoneSlide.length - 1).one("transitionend", function () {
-    startTranslateX.recTranslateXCoord(phoneSlide);
-  phoneSlide.css('transition', 'none');
-
-  });
-}
-
 //Функция возврата значения TranslateX в пикселях
 function getTranslateX(transformValue) {
   if (transformValue && transformValue !== "none") {
@@ -145,4 +78,162 @@ function getTranslateX(transformValue) {
     return parseInt(matrix[4]);
   }
   return 0; // Возвращаем 0, если свойство transform отсутствует
+}
+
+function topSlider() {
+  const cloneNumber = 6 / phoneSlide.length;
+  if (cloneNumber > 1) {
+    for (let i = 0; i < cloneNumber - 1; i++) {
+      for (let j = 0; j < phoneSlide.length; j++) {
+        let newElement = phoneSlide.eq(j).clone();
+        if (newElement.hasClass("active")) {
+          newElement.removeClass("active");
+        }
+        mainSlider.append(newElement);
+      }
+    }
+  }
+  phoneSlide = $(".phone__slide");
+
+  let clickStartX;
+  let touchStartX = 0;
+  let mouseDown = false;
+  let touchDown = false;
+  let mouseShiftX = 0;
+  let touchShiftX = 0;
+  let startTranslateX = [];
+  let activeSlideNumber = 0;
+  // let touchBlock = false;
+
+  slideUp();
+  startTranslateX.recTranslateXCoord(phoneSlide);
+
+  //Реагируем на тач
+  mainSlider.on("touchstart", function (event) {
+    touchStart(event.touches[0].screenX);
+  });
+
+  //Реагируем на клик
+  mainSlider.on('mousedown', function (event) {
+    // Сохраняем начальную точку сдвига
+    touchStart(event.screenX);
+  })
+
+  function touchStart(point) {
+    // if(!touchBlock){
+    // Сохраняем начальную точку сдвига
+    touchStartX = point;
+    touchDown = true;
+    phoneSlide.css("transition", "none");
+    // }
+  }
+
+
+
+  //Движение по тачу
+  $(document).on("touchmove", function (event) {
+    touchMove(event.touches[0].screenX);
+  });
+
+  //Движение по курсору
+  $(document).on("mousemove", function (event) {
+    touchMove(event.screenX);
+  });
+
+  function touchMove(screenX) {
+    if (touchDown) {
+      // Вычисление сдвига слайдера от начальной точки
+      touchShiftX = screenX - touchStartX;
+
+      // Ограничение максимального сдвига слайда вручную
+      if (touchShiftX > 585 * 0.75) {
+        touchShiftX = 585 * 0.75;
+      } else if (touchShiftX < -585 * 0.75) {
+        touchShiftX = -585 * 0.75;
+      }
+
+      // Перемещение слайдов
+      phoneSlide.each(function (index, element) {
+        $(element).css(
+          "transform",
+          `translateX(${touchShiftX + startTranslateX[index]}px)`
+        );
+      });
+      if (userAgentMobile) {
+        $('body').addClass('no-scroll-mobile'), { passive: false }
+      }
+    }
+  }
+
+  //Обработка окончания касания
+  $(document).on("touchend", function () {
+    touchEnd();
+  });
+
+  //Обработка окончания клика
+  $(document).on("mouseup", function () {
+    touchEnd();
+  });
+
+  function touchEnd() {
+    startTranslateX.recTranslateXCoord(phoneSlide);
+    touchDown = false;
+    if (userAgentMobile) {
+      $('body').removeClass('no-scroll-mobile');
+    }
+
+    //Определяем направление движения слайдера
+    const risk = 0.15;
+    if (getTranslateX(phoneSlide.eq(activeSlideNumber)) < risk * -585) {
+      console.log(getTranslateX(phoneSlide.eq(activeSlideNumber)))
+      activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
+    } else if (getTranslateX(phoneSlide.eq(activeSlideNumber)) > risk * 585) {
+      activeSlideNumber =
+        (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
+    }
+    slideUp();
+  }
+
+
+  //Перемотка
+  function slideUp() {
+    // touchBlock = true;
+    //Вычисляем и устанавливаем время перемотки
+    let timeToScroll =
+      ((Math.abs(getTranslateX(phoneSlide.eq(0))) / 585) % 1) * 0.6;
+    phoneSlide.css("transition", `ease ${0.3}s all`);
+    for (let i = 0; i < phoneSlide.length; i++) {
+      let stepCoord =
+        ((i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length) - 2;
+      phoneSlide.eq(i).css("transform", `translateX(${stepCoord * 585}px)`);
+      if (stepCoord === phoneSlide.length - 3 || stepCoord === -2) {
+        if (!phoneSlide.eq(i).hasClass("no-visibility")) {
+          phoneSlide.eq(i).addClass("no-visibility");
+        }
+      } else {
+        if (phoneSlide.eq(i).hasClass("no-visibility")) {
+          phoneSlide.eq(i).removeClass("no-visibility");
+        }
+      }
+      if (stepCoord === 0) {
+        phoneSlide.eq(i).addClass("active");
+      } else {
+        if (phoneSlide.eq(i).hasClass("active")) {
+          phoneSlide.eq(i).removeClass("active");
+        }
+      }
+      if (stepCoord === 1) {
+        phoneSlide.eq(i).addClass("blur");
+      } else {
+        if (phoneSlide.eq(i).hasClass("blur")) {
+          phoneSlide.eq(i).removeClass("blur");
+        }
+      }
+    }
+    phoneSlide.eq(phoneSlide.length - 1).one("transitionend", function () {
+      startTranslateX.recTranslateXCoord(phoneSlide);
+      phoneSlide.css('transition', 'none');
+      // touchBlock = false;
+    });
+  }
 }
