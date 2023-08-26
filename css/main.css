@@ -244,8 +244,8 @@ body {
   }
 }
 .main__title {
-  min-width: 481px;
-  width: 481px;
+  max-width: 481px;
+  margin-top: 130px;
 }
 .main__title h3 {
   color: var(--dark-purple, #06002b);
@@ -322,11 +322,11 @@ body {
   display: flex;
   width: 1485px;
   float: right;
-  margin-top: 170px;
   overflow: hidden;
 }
 
 .main__slider {
+  background-color: gray;
   width: 906px;
   margin: 60px 0 0 98px;
   display: flex;
@@ -336,6 +336,7 @@ body {
   overflow: hidden;
   cursor: pointer;
   overflow-y: auto;
+  border-radius: 20px;
 }
 .main__slider .front {
   max-height: 580px;
@@ -373,11 +374,19 @@ body {
   .main {
     flex-direction: column;
     align-items: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 40px auto 0;
     width: -moz-fit-content;
     width: fit-content;
     float: none;
+  }
+  .main__title {
+    margin-top: 40px;
+  }
+  .main__title .ordernow__btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .main__slider {
     margin-left: 0;
@@ -411,13 +420,19 @@ body {
     width: 100%;
     height: auto;
   }
+  .main__title h3 {
+    font-size: 20px;
+  }
+  .main__title h1 {
+    font-size: 40px;
+  }
   .main__slider {
     width: 100%;
     max-width: 565px;
   }
   .container {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .phone__slide.active {
     height: -moz-fit-content;
@@ -453,6 +468,15 @@ body {
   .main .front {
     width: 76.3%;
   }
+  .main__title .ordernow__btn {
+    margin-bottom: 50px;
+  }
+}
+@media (max-width: 369px) {
+  .benefits__box {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 .phone__slide img {
   -webkit-user-select: none;
@@ -466,4 +490,8 @@ body {
 
 .no-scroll-mobile {
   overflow-y: hidden;
+}
+
+.grabbing {
+  cursor: grabbing;
 }/*# sourceMappingURL=main.css.map */

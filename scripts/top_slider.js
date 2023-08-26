@@ -4,19 +4,21 @@ let userAgentMobile;
 var userAgent = navigator.userAgent;
 
 // Проверка наличия некоторых ключевых слов, характерных для мобильных устройств
-if (userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i)) {
+if (
+  userAgent.match(
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+  )
+) {
   userAgentMobile = true;
 } else {
   userAgentMobile = false;
 }
-console.log(userAgent)
-console.log(userAgentMobile)
 
 //Предзагрузка изображений
 const imageUrls = [];
-$('.phone__slide img').each(function (index, element) {
-  imageUrls[index] = $(element).attr('src');
-})
+$(".phone__slide img").each(function (index, element) {
+  imageUrls[index] = $(element).attr("src");
+});
 function preloadImages(imageUrls, callback) {
   let loadedImages = 0;
   const totalImages = imageUrls.length;
@@ -38,7 +40,7 @@ function preloadImages(imageUrls, callback) {
 // Запускаем предварительную загрузку
 // preloadImages(imageUrls, function () {
 // Все изображения загружены, можно продолжать выполнение кода
-// console.log("Изображения загружены!");
+//   console.log("Изображения загружены!");
 // });
 
 preloadImages(imageUrls, topSlider);
@@ -65,6 +67,7 @@ let phoneSlide = $(".phone__slide");
 phoneSlide.each(function (index, element) {
   $(element).css("transform", "translateX(0px)");
 });
+// phoneSlide.css("transition", `ease 0.4s all`);
 
 //Функция возврата значения TranslateX в пикселях
 function getTranslateX(transformValue) {
@@ -79,6 +82,8 @@ function getTranslateX(transformValue) {
   }
   return 0; // Возвращаем 0, если свойство transform отсутствует
 }
+
+let horizenScroll = true;
 
 function topSlider() {
   const cloneNumber = 6 / phoneSlide.length;
@@ -97,42 +102,60 @@ function topSlider() {
 
   let clickStartX;
   let touchStartX = 0;
+  let touchStartY = 0;
   let mouseDown = false;
   let touchDown = false;
   let mouseShiftX = 0;
   let touchShiftX = 0;
   let startTranslateX = [];
   let activeSlideNumber = 0;
-  // let touchBlock = false;
 
+  //Блокировка прокрутки слайдера
+  let touchBlock = false;
+
+  //Запускаем расстановку и сохраняем координаты каждого слайда
   slideUp();
-  startTranslateX.recTranslateXCoord(phoneSlide);
 
   //Реагируем на тач
   mainSlider.on("touchstart", function (event) {
-    touchStart(event.touches[0].screenX);
+    if (!touchBlock) {
+      touchStart(event.touches[0].screenX, event.touches[0].screenY);
+    }
   });
 
   //Реагируем на клик
-  mainSlider.on('mousedown', function (event) {
-    // Сохраняем начальную точку сдвига
-    touchStart(event.screenX);
-  })
+  mainSlider.on("mousedown", function (event) {
+    if (!touchBlock) {
+      // Сохраняем начальную точку сдвига
+      touchStart(event.screenX, event.screenY);
+    }
+  });
 
-  function touchStart(point) {
-    // if(!touchBlock){
+  function touchStart(pointX, pointY) {
     // Сохраняем начальную точку сдвига
-    touchStartX = point;
+    touchStartX = pointX;
+    touchStartY = pointY;
     touchDown = true;
     phoneSlide.css("transition", "none");
-    // }
+    mainSlider.addClass("grabbing");
   }
 
-
-
   //Движение по тачу
-  $(document).on("touchmove", function (event) {
-    touchMove(event.touches[0].screenX);
+  document.body.addEventListener("touchmove", function (event) {
+    if (touchDown) {
+      if (userAgentMobile) {
+        //Проверяем осуществляется ли прокрутка слайдера по горизонтали или вертикали
+        let deltaX = Math.abs(event.touches[0].screenX - touchStartX);
+        let deltaY = Math.abs(event.touches[0].screenY - touchStartY);
+        if (deltaX > deltaY && !$("body").hasClass("no-scroll-mobile")) {
+          $("body").addClass("no-scroll-mobile");
+        }
+        if (deltaX < deltaY) {
+          horizenScroll = false;
+        }
+      }
+      touchMove(event.touches[0].screenX);
+    }
   });
 
   //Движение по курсору
@@ -141,32 +164,32 @@ function topSlider() {
   });
 
   function touchMove(screenX) {
-    if (touchDown) {
-      // Вычисление сдвига слайдера от начальной точки
-      touchShiftX = screenX - touchStartX;
-
-      // Ограничение максимального сдвига слайда вручную
-      if (touchShiftX > 585 * 0.75) {
-        touchShiftX = 585 * 0.75;
-      } else if (touchShiftX < -585 * 0.75) {
-        touchShiftX = -585 * 0.75;
-      }
-
-      // Перемещение слайдов
-      phoneSlide.each(function (index, element) {
-        $(element).css(
-          "transform",
-          `translateX(${touchShiftX + startTranslateX[index]}px)`
-        );
-      });
-      if (userAgentMobile) {
-        $('body').addClass('no-scroll-mobile'), { passive: false }
-      }
+    if (!touchDown || !horizenScroll) {
+      return;
     }
+    touchBlock = true;
+    // Вычисление сдвига слайдера от начальной точки
+    touchShiftX = screenX - touchStartX;
+
+    // Ограничение максимального сдвига слайда вручную
+    if (touchShiftX > 585 * 0.75) {
+      touchShiftX = 585 * 0.75;
+    } else if (touchShiftX < -585 * 0.75) {
+      touchShiftX = -585 * 0.75;
+    }
+
+    // Перемещение слайдов
+    phoneSlide.each(function (index, element) {
+      $(element).css(
+        "transform",
+        `translateX(${touchShiftX + startTranslateX[index]}px)`
+      );
+    });
   }
 
   //Обработка окончания касания
   $(document).on("touchend", function () {
+    horizenScroll = true;
     touchEnd();
   });
 
@@ -176,35 +199,32 @@ function topSlider() {
   });
 
   function touchEnd() {
+    mainSlider.removeClass("grabbing");
     startTranslateX.recTranslateXCoord(phoneSlide);
     touchDown = false;
-    if (userAgentMobile) {
-      $('body').removeClass('no-scroll-mobile');
-    }
 
     //Определяем направление движения слайдера
-    const risk = 0.15;
+    const risk = 0.1;
     if (getTranslateX(phoneSlide.eq(activeSlideNumber)) < risk * -585) {
-      console.log(getTranslateX(phoneSlide.eq(activeSlideNumber)))
       activeSlideNumber = (activeSlideNumber + 1) % phoneSlide.length;
     } else if (getTranslateX(phoneSlide.eq(activeSlideNumber)) > risk * 585) {
       activeSlideNumber =
         (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
     }
     slideUp();
+    if ($("body").hasClass("no-scroll-mobile")) {
+      $("body").removeClass("no-scroll-mobile");
+    }
   }
-
 
   //Перемотка
   function slideUp() {
-    // touchBlock = true;
-    //Вычисляем и устанавливаем время перемотки
-    let timeToScroll =
-      ((Math.abs(getTranslateX(phoneSlide.eq(0))) / 585) % 1) * 0.6;
-    phoneSlide.css("transition", `ease ${0.3}s all`);
+    startTranslateX.recTranslateXCoord(phoneSlide);
+    phoneSlide.css("transition", `ease 0.4s all`);
     for (let i = 0; i < phoneSlide.length; i++) {
       let stepCoord =
-        ((i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length) - 2;
+        ((i + phoneSlide.length - activeSlideNumber + 2) % phoneSlide.length) -
+        2;
       phoneSlide.eq(i).css("transform", `translateX(${stepCoord * 585}px)`);
       if (stepCoord === phoneSlide.length - 3 || stepCoord === -2) {
         if (!phoneSlide.eq(i).hasClass("no-visibility")) {
@@ -222,7 +242,7 @@ function topSlider() {
           phoneSlide.eq(i).removeClass("active");
         }
       }
-      if (stepCoord === 1) {
+      if (stepCoord === 1 || stepCoord === 2) {
         phoneSlide.eq(i).addClass("blur");
       } else {
         if (phoneSlide.eq(i).hasClass("blur")) {
@@ -232,8 +252,9 @@ function topSlider() {
     }
     phoneSlide.eq(phoneSlide.length - 1).one("transitionend", function () {
       startTranslateX.recTranslateXCoord(phoneSlide);
-      phoneSlide.css('transition', 'none');
-      // touchBlock = false;
+      phoneSlide.css("transition", "none");
+      horizenScroll = true;
+      touchBlock = false;
     });
   }
 }
