@@ -2,7 +2,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  // min-height: 2000px;
+  margin-bottom: 200px;
 }
 
 .container {
@@ -176,7 +176,7 @@ body {
   padding: 65px 0 0 46px;
   list-style: none;
   text-align: start;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.93);
   box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
 
   color: var(--dark-purple, #06002b);
@@ -198,7 +198,7 @@ body {
 }
 
 #menu__box > :not(:first-child) {
-  margin-top: 66px;
+  margin-top: 40px;
 }
 
 #menu__toggle {
@@ -351,13 +351,13 @@ body {
 .main {
   display: flex;
   width: 1485px;
-  float: right;
+  // float: right;
   // margin-top: 170px;
+  margin: 0 0 0 auto;
   overflow: hidden;
 }
 
 .main__slider {
-  background-color: gray;
   width: 906px;
   margin: 60px 0 0 98px;
   display: flex;
@@ -366,8 +366,7 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  overflow-y: auto;
-  border-radius: 20px;
+  // border-radius: 20px;
   .front {
     max-height: 580px;
   }
@@ -461,11 +460,11 @@ body {
       height: auto;
     }
   }
-  .main__title{
+  .main__title {
     h3 {
       font-size: 20px;
     }
-    h1{
+    h1 {
       font-size: 40px;
     }
   }
@@ -524,16 +523,15 @@ body {
       width: 76.3%;
     }
   }
-  .main__title .ordernow__btn{
+  .main__title .ordernow__btn {
     margin-bottom: 50px;
   }
 }
-@media(max-width: 369px){
-  .benefits__box{
+@media (max-width: 369px) {
+  .benefits__box {
     flex-direction: column;
     align-items: center;
   }
-
 }
 
 .phone__slide img {
@@ -547,6 +545,52 @@ body {
 .no-scroll-mobile {
   overflow-y: hidden;
 }
-.grabbing{
+// .no-scroll-pc {
+//   overflow-y: hidden;
+//   margin-right: 17px;
+// }
+.grabbing {
   cursor: grabbing;
+}
+.choose__color, .screen {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: 0 10px;
+  h2 {
+    font-size: 36px;
+    font-weight: 300;
+    text-align: center;
+    line-height: normal;
+  }
+  span {
+    color: #06002b;
+    text-align: center;
+    font-feature-settings: "clig" off, "liga" off;
+    display: block;
+    margin: 30px auto 0;
+    max-width: 730px;
+  }
+  & > img{
+    margin-top: 50px;
+    align-self: center;
+    width: 1484px;
+    height: auto;
+  }
+}
+@media (max-width: 1199px) {
+  .choose__color, .screen {
+    margin-top: 100px;
+  }
+}
+@media (max-width: 775px) {
+  .choose__color > img {
+    width: 191%;
+  }
+}
+@media (max-width: 1359px) {
+ .screen > img {
+    width: 109%;
+  }
 }

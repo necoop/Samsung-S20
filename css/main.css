@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&family=Roboto&display=swap");
 body {
   font-family: "Inter", sans-serif;
+  margin-bottom: 200px;
 }
 
 .container {
@@ -164,7 +165,7 @@ body {
   padding: 65px 0 0 46px;
   list-style: none;
   text-align: start;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.93);
   box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
   color: var(--dark-purple, #06002b);
   font-feature-settings: "clig" off, "liga" off;
@@ -185,7 +186,7 @@ body {
 }
 
 #menu__box > :not(:first-child) {
-  margin-top: 66px;
+  margin-top: 40px;
 }
 
 #menu__toggle {
@@ -321,12 +322,11 @@ body {
 .main {
   display: flex;
   width: 1485px;
-  float: right;
+  margin: 0 0 0 auto;
   overflow: hidden;
 }
 
 .main__slider {
-  background-color: gray;
   width: 906px;
   margin: 60px 0 0 98px;
   display: flex;
@@ -335,8 +335,6 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  overflow-y: auto;
-  border-radius: 20px;
 }
 .main__slider .front {
   max-height: 580px;
@@ -494,4 +492,48 @@ body {
 
 .grabbing {
   cursor: grabbing;
+}
+
+.choose__color, .screen {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: 0 10px;
+}
+.choose__color h2, .screen h2 {
+  font-size: 36px;
+  font-weight: 300;
+  text-align: center;
+  line-height: normal;
+}
+.choose__color span, .screen span {
+  color: #06002b;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  display: block;
+  margin: 30px auto 0;
+  max-width: 730px;
+}
+.choose__color > img, .screen > img {
+  margin-top: 50px;
+  align-self: center;
+  width: 1484px;
+  height: auto;
+}
+
+@media (max-width: 1199px) {
+  .choose__color, .screen {
+    margin-top: 100px;
+  }
+}
+@media (max-width: 775px) {
+  .choose__color > img {
+    width: 191%;
+  }
+}
+@media (max-width: 1359px) {
+  .screen > img {
+    width: 109%;
+  }
 }/*# sourceMappingURL=main.css.map */

@@ -83,6 +83,16 @@ function getTranslateX(transformValue) {
   return 0; // Возвращаем 0, если свойство transform отсутствует
 }
 
+function setMainSliderHeight(activeSlideNumber) {
+  mainSlider.css(
+    "height",
+    `${
+      parseInt($(phoneSlide).eq(activeSlideNumber).css("height")) +
+      parseInt($(phoneSlide).eq(activeSlideNumber).css("margin-bottom"))
+    }px`
+  );
+}
+
 let horizenScroll = true;
 
 function topSlider() {
@@ -116,6 +126,12 @@ function topSlider() {
   //Запускаем расстановку и сохраняем координаты каждого слайда
   slideUp();
 
+  setMainSliderHeight(activeSlideNumber);
+
+  $(window).on("resize", function () {
+    setMainSliderHeight(activeSlideNumber);
+  });
+
   //Реагируем на тач
   mainSlider.on("touchstart", function (event) {
     if (!touchBlock) {
@@ -147,7 +163,12 @@ function topSlider() {
         //Проверяем осуществляется ли прокрутка слайдера по горизонтали или вертикали
         let deltaX = Math.abs(event.touches[0].screenX - touchStartX);
         let deltaY = Math.abs(event.touches[0].screenY - touchStartY);
-        if (deltaX > deltaY && !$("body").hasClass("no-scroll-mobile")) {
+        if (
+          deltaX > deltaY &&
+          !$("body").hasClass(
+            "no-scroll-mobile" && !event.target === $("#menu__box")
+          )
+        ) {
           $("body").addClass("no-scroll-mobile");
         }
         if (deltaX < deltaY) {
@@ -198,7 +219,7 @@ function topSlider() {
     touchEnd();
   });
 
-  function touchEnd() {
+  function touchEnd(event) {
     mainSlider.removeClass("grabbing");
     startTranslateX.recTranslateXCoord(phoneSlide);
     touchDown = false;
@@ -212,7 +233,7 @@ function topSlider() {
         (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
     }
     slideUp();
-    if ($("body").hasClass("no-scroll-mobile")) {
+    if ($("body").hasClass("no-scroll-mobile") && !$('#menu__toggle')[0].checked) {
       $("body").removeClass("no-scroll-mobile");
     }
   }
