@@ -558,6 +558,9 @@ body {
 }
 
 @media (max-width: 1199px) {
+  .camera {
+    margin-top: 50px;
+  }
   .camera img {
     width: 96.7%;
     height: auto;
