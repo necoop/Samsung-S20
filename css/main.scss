@@ -144,9 +144,9 @@ body {
   z-index: 1;
 }
 
-#menu__btn > span,
-#menu__btn > span::before,
-#menu__btn > span::after {
+#menu__btn>span,
+#menu__btn>span::before,
+#menu__btn>span::after {
   display: block;
   position: absolute;
   width: 100%;
@@ -154,12 +154,12 @@ body {
   background-color: #000;
 }
 
-#menu__btn > span::before {
+#menu__btn>span::before {
   content: "";
   top: -8px;
 }
 
-#menu__btn > span::after {
+#menu__btn>span::after {
   content: "";
   top: 8px;
 }
@@ -197,7 +197,7 @@ body {
   text-decoration: none;
 }
 
-#menu__box > :not(:first-child) {
+#menu__box> :not(:first-child) {
   margin-top: 40px;
 }
 
@@ -205,28 +205,28 @@ body {
   position: fixed;
 }
 
-#menu__toggle:checked ~ #menu__btn > span {
+#menu__toggle:checked~#menu__btn>span {
   transform: rotate(45deg);
 }
 
-#menu__toggle:checked ~ #menu__btn > span::before {
+#menu__toggle:checked~#menu__btn>span::before {
   top: 0;
   transform: rotate(0);
 }
 
-#menu__toggle:checked ~ #menu__btn > span::after {
+#menu__toggle:checked~#menu__btn>span::after {
   top: 0;
   transform: rotate(90deg);
 }
 
-#menu__toggle:checked ~ #menu__box {
+#menu__toggle:checked~#menu__box {
   visibility: visible;
   left: 0;
 }
 
-#menu__btn > span,
-#menu__btn > span::before,
-#menu__btn > span::after {
+#menu__btn>span,
+#menu__btn>span::before,
+#menu__btn>span::after {
   transition-duration: 0.25s;
 }
 
@@ -366,6 +366,7 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+
   // border-radius: 20px;
   .front {
     max-height: 580px;
@@ -411,10 +412,12 @@ body {
     width: fit-content;
     float: none;
   }
+
   .main__title {
     // margin-left: 10px;
     // margin-right: 10px;
     margin-top: 40px;
+
     .ordernow__btn {
       width: 100%;
       display: flex;
@@ -422,6 +425,7 @@ body {
       align-items: center;
     }
   }
+
   .main__slider {
     margin-left: 0;
   }
@@ -460,10 +464,12 @@ body {
       height: auto;
     }
   }
+
   .main__title {
     h3 {
       font-size: 20px;
     }
+
     h1 {
       font-size: 40px;
     }
@@ -518,15 +524,18 @@ body {
   }
 
   .main {
+
     .back,
     .front {
       width: 76.3%;
     }
   }
+
   .main__title .ordernow__btn {
     margin-bottom: 50px;
   }
 }
+
 @media (max-width: 369px) {
   .benefits__box {
     flex-direction: column;
@@ -545,6 +554,7 @@ body {
 .no-scroll-mobile {
   overflow-y: hidden;
 }
+
 // .no-scroll-pc {
 //   overflow-y: hidden;
 //   margin-right: 17px;
@@ -552,18 +562,23 @@ body {
 .grabbing {
   cursor: grabbing;
 }
-.choose__color, .screen {
+
+.choose__color,
+.screen,
+.camera {
   margin-top: 200px;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   padding: 0 10px;
+
   h2 {
     font-size: 36px;
     font-weight: 300;
     text-align: center;
     line-height: normal;
   }
+
   span {
     color: #06002b;
     text-align: center;
@@ -572,25 +587,41 @@ body {
     margin: 30px auto 0;
     max-width: 730px;
   }
-  & > img{
+
+  span:nth-of-type(2) {
+    margin: 50px auto 0;
+  }
+
+  &>img {
     margin-top: 50px;
     align-self: center;
     width: 1484px;
     height: auto;
   }
 }
+
 @media (max-width: 1199px) {
-  .choose__color, .screen {
+
+  .choose__color,
+  .screen {
     margin-top: 100px;
   }
 }
+
 @media (max-width: 775px) {
-  .choose__color > img {
+  .choose__color>img {
     width: 191%;
   }
 }
+
 @media (max-width: 1359px) {
- .screen > img {
+  .screen>img {
     width: 109%;
+  }
+}
+.camera{
+  img{
+    width: 1160px;
+    height: 855px;
   }
 }
