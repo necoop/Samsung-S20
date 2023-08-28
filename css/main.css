@@ -554,4 +554,11 @@ body {
 .camera img {
   width: 1160px;
   height: 855px;
+}
+
+@media (max-width: 1199px) {
+  .camera img {
+    width: 96.7%;
+    height: auto;
+  }
 }/*# sourceMappingURL=main.css.map */

@@ -625,3 +625,9 @@ body {
     height: 855px;
   }
 }
+@media(max-width: 1199px){
+  .camera img{
+    width: 96.7%;
+    height: auto;
+  }
+}
