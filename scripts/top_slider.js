@@ -86,9 +86,8 @@ function getTranslateX(transformValue) {
 function setMainSliderHeight(activeSlideNumber) {
   mainSlider.css(
     "height",
-    `${
-      parseInt($(phoneSlide).eq(activeSlideNumber).css("height")) +
-      parseInt($(phoneSlide).eq(activeSlideNumber).css("margin-bottom"))
+    `${parseInt($(phoneSlide).eq(activeSlideNumber).css("height")) +
+    parseInt($(phoneSlide).eq(activeSlideNumber).css("margin-bottom"))
     }px`
   );
 }
@@ -164,12 +163,11 @@ function topSlider() {
         let deltaX = Math.abs(event.touches[0].screenX - touchStartX);
         let deltaY = Math.abs(event.touches[0].screenY - touchStartY);
         if (
-          deltaX > deltaY &&
-          !$("body").hasClass(
-            "no-scroll-mobile" && !event.target === $("#menu__box")
-          )
+          deltaX > deltaY && !event.target === $("#menu__box")
+
         ) {
-          $("body").addClass("no-scroll-mobile");
+          console.log('Остановка прокрутки')
+          event.preventDefault();
         }
         if (deltaX < deltaY) {
           horizenScroll = false;
@@ -233,9 +231,6 @@ function topSlider() {
         (activeSlideNumber + phoneSlide.length - 1) % phoneSlide.length;
     }
     slideUp();
-    if ($("body").hasClass("no-scroll-mobile") && !$('#menu__toggle')[0].checked) {
-      $("body").removeClass("no-scroll-mobile");
-    }
   }
 
   //Перемотка
