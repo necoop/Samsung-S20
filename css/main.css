@@ -244,25 +244,25 @@ body {
     display: none;
   }
 }
-.main__title, .central__section {
+.main__title {
   max-width: 481px;
   margin-top: 130px;
 }
-.main__title h3, .central__section h3 {
+.main__title h3 {
   color: var(--dark-purple, #06002b);
   font-family: Inter;
   font-size: 24px;
   font-weight: 300;
   line-height: 1.42;
 }
-.main__title h3 span, .central__section h3 span {
+.main__title h3 span {
   color: #e53125;
   font-family: Inter;
   font-size: 36px;
   font-weight: 500;
   line-height: 34px;
 }
-.main__title h1, .central__section h1 {
+.main__title h1 {
   color: var(--dark-purple, #06002b);
   font-family: Inter;
   font-size: 48px;
@@ -270,23 +270,30 @@ body {
   line-height: normal;
   margin-bottom: 20px;
 }
-.main__title .ordernow__btn, .central__section .ordernow__btn {
+.main__title .ordernow__btn {
   margin: 50px 0 150px;
+}
+
+.ordernow__btn {
   padding: 20px 40px;
   border-radius: 5px;
   background: #06002b;
   display: inline-block;
-  color: #fff;
   transition: 0.3s all;
+  box-sizing: border-box;
+  height: 60px;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-.main__title .ordernow__btn span, .central__section .ordernow__btn span {
+.ordernow__btn span {
   margin-right: 10px;
   text-transform: uppercase;
+  color: #fff;
 }
-.main__title .ordernow__btn:hover, .central__section .ordernow__btn:hover {
+.ordernow__btn:hover {
   background: #057ea5;
 }
-.main__title .ordernow__btn:active, .central__section .ordernow__btn:active {
+.ordernow__btn:active {
   background: #06002b;
 }
 
@@ -380,7 +387,7 @@ body {
   .main__title {
     margin-top: 40px;
   }
-  .main__title .ordernow__btn {
+  .ordernow__btn {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -568,9 +575,10 @@ body {
 }
 .step__ahead {
   margin-top: 200px;
+  max-width: 1470px;
 }
 .step__ahead h2 {
-  color: var(--dark-purple, #06002B);
+  color: var(--dark-purple, #06002b);
   text-align: center;
   font-size: 36px;
   font-weight: 300;
@@ -581,7 +589,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin-top: 80px;
-  color: var(--dark-purple, #06002B);
+  color: var(--dark-purple, #06002b);
   font-size: 16px;
   font-weight: 300;
   line-height: 1.4;
@@ -639,14 +647,47 @@ body {
     margin: 20px 0;
   }
 }
-.order1 {
+.order1__box {
   display: flex;
   height: 200px;
-  background: url(../img/order_background1.jpg);
-  background-size: auto;
+  background-image: url(../img/order_background1.jpg);
   background-repeat: no-repeat;
+  background-size: 579px;
+  margin-top: 330px;
+  justify-content: end;
+  align-items: center;
 }
-.order1 .phones__order {
+.order1__box .phones__order {
   width: 496px;
   height: 330px;
+  align-self: self-end;
+}
+.order1__box > span {
+  max-width: 449px;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-right: 70px;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: rgba(249, 248, 243, 0.6);
+  box-shadow: -4px 0px 10px 11px rgba(249, 248, 243, 0.6);
+}
+.order1__box .ordernow__btn {
+  margin-right: 23px;
+}
+
+.order1 {
+  background: #f9f8f3;
+  padding-right: 171px;
+}
+
+.order1.container {
+  padding-left: 0;
+}
+
+.red {
+  color: var(--red-notice, #e53125);
+  font-size: 36px;
+  font-weight: 500;
 }/*# sourceMappingURL=main.css.map */
