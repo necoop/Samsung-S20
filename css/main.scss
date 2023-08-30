@@ -263,7 +263,7 @@ body {
 }
 
 // Секция main
-.main__title {
+.main__title,  .central__section {
   max-width: 481px;
   margin-top: 130px;
   // width: 481px;
@@ -720,5 +720,18 @@ body {
     img{
       margin: 20px 0;
     }
+  }
+}
+
+//Секция order1
+.order1{
+  display: flex;
+  height: 200px;
+  background: url(../img/order_background1.jpg);
+  background-size: auto;
+  background-repeat: no-repeat;
+  .phones__order{
+    width: 496px;
+    height: 330px;
   }
 }
