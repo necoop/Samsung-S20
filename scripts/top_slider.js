@@ -163,7 +163,7 @@ function topSlider() {
         let deltaX = Math.abs(event.touches[0].screenX - touchStartX);
         let deltaY = Math.abs(event.touches[0].screenY - touchStartY);
         if (deltaX > deltaY && !(event.target === $("#menu__box"))) {
-          event.preventDefault();
+          if (event.cancelable) event.preventDefault();
         }
         if (deltaX < deltaY) {
           horizenScroll = false;
