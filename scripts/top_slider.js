@@ -158,15 +158,11 @@ function topSlider() {
   //Движение по тачу
   document.body.addEventListener("touchmove", function (event) {
     if (touchDown) {
-
       if (userAgentMobile) {
-
         //Проверяем осуществляется ли прокрутка слайдера по горизонтали или вертикали
         let deltaX = Math.abs(event.touches[0].screenX - touchStartX);
         let deltaY = Math.abs(event.touches[0].screenY - touchStartY);
-    console.log('deltaX = ' + deltaX + ' deltaY = ' + deltaY + ' target ' + event.target)
         if (deltaX > deltaY && !(event.target === $("#menu__box"))) {
-          console.log('Остановка прокрутки')
           event.preventDefault();
         }
         if (deltaX < deltaY) {
@@ -175,7 +171,7 @@ function topSlider() {
       }
       touchMove(event.touches[0].screenX);
     }
-  });
+  }, { passive: false });
 
   //Движение по курсору
   $(document).on("mousemove", function (event) {
