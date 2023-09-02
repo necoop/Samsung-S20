@@ -714,4 +714,55 @@ body {
     padding-right: 10px;
     max-width: 768px;
   }
+}
+.view {
+  margin-top: 200px;
+}
+.view h2 {
+  color: var(--Dark-purple, #06002b);
+  text-align: center;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: normal;
+}
+.view .carusel {
+  margin-top: 80px;
+  width: 1130px;
+  height: 500px;
+  margin: 80px auto;
+}
+.view .color__selection {
+  margin: 80px auto;
+}
+.view .color__selection .colors {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+  height: 30px;
+}
+.view .color__selection .colors > li {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transition: 0.3s ease all;
+  cursor: pointer;
+}
+.view .color__selection .colors > li.active {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+}
+.view .color__selection .colors > :nth-child(1) {
+  border: 1px solid var(--Light-Grey, #737373);
+  background: #fff;
+}
+.view .color__selection .colors > :nth-child(2) {
+  background: #002D79;
+}
+.view .color__selection .colors > :nth-child(3) {
+  background: #8DDEB6;
+}
+.view .color__selection .colors > :nth-child(4) {
+  background: #ECC3EF;
 }/*# sourceMappingURL=main.css.map */

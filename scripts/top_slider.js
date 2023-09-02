@@ -37,12 +37,6 @@ function preloadImages(imageUrls, callback) {
   }
 }
 
-// Запускаем предварительную загрузку
-// preloadImages(imageUrls, function () {
-// Все изображения загружены, можно продолжать выполнение кода
-//   console.log("Изображения загружены!");
-// });
-
 preloadImages(imageUrls, topSlider);
 
 // Метод сдвига по оси X на заданное значение в пикселях
