@@ -703,7 +703,7 @@ body {
     align-self: center;
   }
   .order1__box > span {
-    margin-right: 0;
+    margin: 0 0 20px 0;
     text-align: center;
   }
   .order1__box .phones__order {

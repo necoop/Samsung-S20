@@ -756,9 +756,6 @@ body {
   background: #f9f8f3;
   padding-right: 171px;
 }
-// .order1.container{
-//   padding-left: 0;
-// }
 .red {
   color: var(--red-notice, #e53125);
   font-size: 36px;
@@ -777,7 +774,7 @@ body {
       align-self: center;
     }
     & > span {
-      margin-right: 0;
+      margin: 0 0 20px 0;
       text-align: center;
     }
     .phones__order {
@@ -790,3 +787,4 @@ body {
     max-width: 768px;
   }
 }
+//Секция order1 окончание
