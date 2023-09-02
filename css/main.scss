@@ -748,7 +748,7 @@ body {
     background-color: rgba(249, 248, 243, 0.6);
     box-shadow: -4px 0px 10px 11px rgba(249, 248, 243, 0.6);
   }
-  .ordernow__btn{
+  .ordernow__btn {
     margin-right: 23px;
   }
 }
@@ -756,11 +756,37 @@ body {
   background: #f9f8f3;
   padding-right: 171px;
 }
-.order1.container{
-  padding-left: 0;
-}
+// .order1.container{
+//   padding-left: 0;
+// }
 .red {
   color: var(--red-notice, #e53125);
   font-size: 36px;
   font-weight: 500;
+}
+@media (max-width: 1599px) {
+  .order1__box {
+    flex-direction: column;
+    height: fit-content;
+    margin-top: 100px;
+    background: none;
+    .ordernow__btn {
+      margin-right: 0;
+    }
+    .phones__order {
+      align-self: center;
+    }
+    & > span {
+      margin-right: 0;
+      text-align: center;
+    }
+    .phones__order {
+      width: 100%;
+      height: auto;
+    }
+  }
+  .order1 {
+    padding-right: 10px;
+    max-width: 768px;
+  }
 }

@@ -682,12 +682,36 @@ body {
   padding-right: 171px;
 }
 
-.order1.container {
-  padding-left: 0;
-}
-
 .red {
   color: var(--red-notice, #e53125);
   font-size: 36px;
   font-weight: 500;
+}
+
+@media (max-width: 1599px) {
+  .order1__box {
+    flex-direction: column;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin-top: 100px;
+    background: none;
+  }
+  .order1__box .ordernow__btn {
+    margin-right: 0;
+  }
+  .order1__box .phones__order {
+    align-self: center;
+  }
+  .order1__box > span {
+    margin-right: 0;
+    text-align: center;
+  }
+  .order1__box .phones__order {
+    width: 100%;
+    height: auto;
+  }
+  .order1 {
+    padding-right: 10px;
+    max-width: 768px;
+  }
 }/*# sourceMappingURL=main.css.map */
