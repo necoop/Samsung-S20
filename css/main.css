@@ -730,6 +730,19 @@ body {
   width: 1130px;
   height: 500px;
   margin: 80px auto;
+  position: relative;
+  overflow-x: hidden;
+}
+.view .carusel > * {
+  position: absolute;
+  bottom: 0;
+  width: 190px;
+}
+.view .carusel > * img {
+  width: 100%;
+}
+.view .carusel > *.active {
+  width: 370px;
 }
 .view .color__selection {
   margin: 80px auto;
@@ -758,11 +771,11 @@ body {
   background: #fff;
 }
 .view .color__selection .colors > :nth-child(2) {
-  background: #002D79;
+  background: #002d79;
 }
 .view .color__selection .colors > :nth-child(3) {
-  background: #8DDEB6;
+  background: #8ddeb6;
 }
 .view .color__selection .colors > :nth-child(4) {
-  background: #ECC3EF;
+  background: #ecc3ef;
 }/*# sourceMappingURL=main.css.map */

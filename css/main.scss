@@ -797,6 +797,19 @@ body {
     width: 1130px;
     height: 500px;
     margin: 80px auto;
+    position: relative;
+    overflow-x: hidden;
+    & > * {
+      position: absolute;
+      bottom: 0;
+      width: 190px;
+      img{
+        width: 100%;
+      }
+      &.active{
+        width: 370px;
+      }
+    }
   }
   .color__selection {
     margin: 80px auto;
@@ -822,14 +835,14 @@ body {
         border: 1px solid var(--Light-Grey, #737373);
         background: #fff;
       }
-      & > :nth-child(2){
-        background: #002D79;
+      & > :nth-child(2) {
+        background: #002d79;
       }
-      & > :nth-child(3){
-        background: #8DDEB6;
+      & > :nth-child(3) {
+        background: #8ddeb6;
       }
-      & > :nth-child(4){
-        background: #ECC3EF;
+      & > :nth-child(4) {
+        background: #ecc3ef;
       }
     }
   }
