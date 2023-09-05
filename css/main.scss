@@ -802,6 +802,8 @@ body {
       position: absolute;
       bottom: 0;
       width: 190px;
+      box-sizing: border-box;
+      border: 1px solid black;
       img{
         width: 100%;
       }
@@ -846,4 +848,8 @@ body {
       }
     }
   }
+}
+.span_test{
+  display: inline-block;
+  text-align: center;
 }

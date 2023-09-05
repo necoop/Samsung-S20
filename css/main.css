@@ -736,6 +736,8 @@ body {
   position: absolute;
   bottom: 0;
   width: 190px;
+  box-sizing: border-box;
+  border: 1px solid black;
   cursor: pointer;
 }
 .view .carusel > * img {
@@ -778,4 +780,9 @@ body {
 }
 .view .color__selection .colors > :nth-child(4) {
   background: #ecc3ef;
+}
+
+.span_test {
+  display: inline-block;
+  text-align: center;
 }/*# sourceMappingURL=main.css.map */

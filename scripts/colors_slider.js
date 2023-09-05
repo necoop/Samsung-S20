@@ -6,47 +6,47 @@ let shiftY = 0;
 const colors = $(".colors li");
 colors.eq(0).addClass("active");
 let activeSlide = 3;
-function slideUp() {
+function slideUp(activeSlide) {
   canSlide = false;
-  caruselItem.css('transition', '.3s ease all');
+  caruselItem.css("transition", ".3s ease all");
   for (let i = 0; i < caruselItem.length; i++) {
-    let currentCoord = coordList[((3 - activeSlide) + i + caruselItem.length) % caruselItem.length];
-    caruselItem
-      .eq(i)
-      .css(
-        "transform",
-        `translateX(${currentCoord}px)`
-      );
+    let currentCoord =
+      coordList[
+        (3 - activeSlide + i + caruselItem.length) % caruselItem.length
+      ];
+    caruselItem.eq(i).css("transform", `translateX(${currentCoord}px)`);
     //Ставим класс active
     if (currentCoord === 380) {
-      caruselItem.eq(i).addClass('active');
+      caruselItem.eq(i).addClass("active");
     } else {
-      caruselItem.eq(i).removeClass('active');
+      caruselItem.eq(i).removeClass("active");
     }
     //Устанавливаем невидимость
-    if (currentCoord === 2460 || currentCoord === 2650 || currentCoord === -760 || currentCoord === -570) {
-      if (caruselItem.eq(i).css('visibility') != 'hidden') {
-        caruselItem.eq(i).css('visibility', 'hidden');
+    if (
+      currentCoord < -950 || currentCoord > 2840
+    ) {
+      if (caruselItem.eq(i).css("visibility") != "hidden") {
+        caruselItem.eq(i).css("visibility", "hidden");
       }
-    } else if (caruselItem.eq(i).css('visibility') === 'hidden') {
-      caruselItem.eq(i).css('visibility', 'visible');
+    } else if (caruselItem.eq(i).css("visibility") === "hidden") {
+      caruselItem.eq(i).css("visibility", "visible");
     }
     slideCoord[i] = currentCoord;
   }
-  caruselItem.on('transitionend', function () {
-    caruselItem.css('transition', 'none');
+  caruselItem.eq(caruselItem.length - 1).one("transitionend", function () {
+    caruselItem.css("transition", "none");
     canSlide = true;
-  })
+  });
 }
-
 
 //Задаём активный цвет
 let activeColor = 0;
 
 //Список координат занимаемых слайдами
 const coordList = [
-  0, 190, 380, 750, 940, 1130, 1320, 1510, 1700, 1890, 2080,
-  2270, 2460, 2650, -760, -570, -380, -190
+  0, 190, 380, 750, 940, 1130, 1320, 1510, 1700, 1890, 2080, 2270, 2460, 2650,
+  2840, 3030, 3220, 3410, 3600, 3790, -1900, -1710, -1520, -1330, -1140, -950,
+  -760, -570, -380, -190,
 ];
 
 //Выбираем активный цвет
@@ -63,59 +63,73 @@ colors.on("click", function () {
 });
 
 //Первоначальная расстановка слайдов
-for (let j = 0; j < 3; j++) {
+for (let j = 0; j < 5; j++) {
   for (let i = 0; i < 6; i++) {
     $(".carusel").append(
-      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${activeColor + 1
+      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${
+        activeColor + 1
       } вид ${i + 1}" draggable="false"></li>`
     );
   }
 }
 let caruselItem = $(".carusel li");
-slideUp();
+slideUp(activeSlide);
 
 //Обработка клика на слайдере
-caruselItem.on('click', function () {
-  if (getTranslateX($(this)) === 0) deltaActiveSlide = -2;
-  if (getTranslateX($(this)) === 190) deltaActiveSlide = -1;
-  if (getTranslateX($(this)) === 750) deltaActiveSlide = 1;
-  if (getTranslateX($(this)) === 940) deltaActiveSlide = 2;
-  activeSlide = (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
-  slideUp();
-})
+$(".carusel").on("click", function (event) {
+  if (event.clientX - event.currentTarget.offsetLeft < 1130) deltaActiveSlide = 2;
+  if (event.clientX - event.currentTarget.offsetLeft < 940) deltaActiveSlide = 1;
+  if (event.clientX - event.currentTarget.offsetLeft < 750) deltaActiveSlide = 0;
+  if (event.clientX - event.currentTarget.offsetLeft < 380) deltaActiveSlide = -1;
+  if (event.clientX - event.currentTarget.offsetLeft < 190) deltaActiveSlide = -2;
+  activeSlide =
+    (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
+  slideUp(activeSlide);
+});
 
 //Обработка Drag&Drop
 let draggin;
 let startX;
 let startY;
 
-$('.carusel').on('mousedown', function (event) {
+$(".carusel").on("mousedown", function (event) {
   draggin = true;
   startX = event.clientX;
   startY = event.clientY;
-})
+});
 
-$(document).on('mouseup', function () {
+$(document).on("mouseup", function () {
   draggin = false;
   deltaActiveSlide = 0;
-  if (shiftX > 20) deltaActiveSlide = -1;
-  if (shiftX > 190) deltaActiveSlide = -2;
+  if (shiftX > 85) deltaActiveSlide = -1;
+  if (shiftX > 275) deltaActiveSlide = -2;
+  if (shiftX > 465) deltaActiveSlide = -3;
+  if (shiftX > 655) deltaActiveSlide = -4;
+  if (shiftX > 845) deltaActiveSlide = -5;
+
+
   if (shiftX < -20) deltaActiveSlide = 1;
   if (shiftX < -190) deltaActiveSlide = 2;
-  activeSlide = (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
+  activeSlide =
+    (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
+  console.log('shiftX = ' + shiftX + ' deltaActiveSlide = ' + deltaActiveSlide )
+
   shiftX = 0;
   shiftY = 0;
-  slideUp();
-})
+  slideUp(activeSlide);
+});
 
-$(document).on('mousemove', function (event) {
+$(document).on("mousemove", function (event) {
   if (draggin) {
     shiftX = event.clientX - startX;
     shiftY = event.clientY - startY;
-    if (shiftX > 380) shiftX = 380;
-    if (shiftX < -380) shiftX = -380;
+    if (shiftX > 1130) shiftX = 1130;
+    if (shiftX < -1130) shiftX = -1130;
     caruselItem.each(function (index, element) {
-      $(element).css('transform', `translateX(${slideCoord[index] + shiftX}px)`);
-    })
+      $(element).css(
+        "transform",
+        `translateX(${slideCoord[index] + shiftX}px)`
+      );
+    });
   }
-})
+});
