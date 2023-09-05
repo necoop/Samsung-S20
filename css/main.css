@@ -736,6 +736,7 @@ body {
   position: absolute;
   bottom: 0;
   width: 190px;
+  cursor: pointer;
 }
 .view .carusel > * img {
   width: 100%;
