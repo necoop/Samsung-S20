@@ -1,4 +1,13 @@
+let canSlide = true;
+let slideCoord = [];
+let deltaActiveSlide = 0;
+let shiftX = 0;
+let shiftY = 0;
+const colors = $(".colors li");
+colors.eq(0).addClass("active");
+let activeSlide = 3;
 function slideUp() {
+  canSlide = false;
   caruselItem.css('transition', '.3s ease all');
   for (let i = 0; i < caruselItem.length; i++) {
     let currentCoord = coordList[((3 - activeSlide) + i + caruselItem.length) % caruselItem.length];
@@ -22,15 +31,14 @@ function slideUp() {
     } else if (caruselItem.eq(i).css('visibility') === 'hidden') {
       caruselItem.eq(i).css('visibility', 'visible');
     }
+    slideCoord[i] = currentCoord;
   }
   caruselItem.on('transitionend', function () {
     caruselItem.css('transition', 'none');
+    canSlide = true;
   })
 }
 
-const colors = $(".colors li");
-colors.eq(0).addClass("active");
-let activeSlide = 3;
 
 //Задаём активный цвет
 let activeColor = 0;
@@ -66,12 +74,48 @@ for (let j = 0; j < 3; j++) {
 let caruselItem = $(".carusel li");
 slideUp();
 
-caruselItem.on('click', function (event) {
-  let deltaActiveSlide = 0;
+//Обработка клика на слайдере
+caruselItem.on('click', function () {
   if (getTranslateX($(this)) === 0) deltaActiveSlide = -2;
   if (getTranslateX($(this)) === 190) deltaActiveSlide = -1;
   if (getTranslateX($(this)) === 750) deltaActiveSlide = 1;
   if (getTranslateX($(this)) === 940) deltaActiveSlide = 2;
   activeSlide = (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
   slideUp();
+})
+
+//Обработка Drag&Drop
+let draggin;
+let startX;
+let startY;
+
+$('.carusel').on('mousedown', function (event) {
+  draggin = true;
+  startX = event.clientX;
+  startY = event.clientY;
+})
+
+$(document).on('mouseup', function () {
+  draggin = false;
+  deltaActiveSlide = 0;
+  if (shiftX > 20) deltaActiveSlide = -1;
+  if (shiftX > 190) deltaActiveSlide = -2;
+  if (shiftX < -20) deltaActiveSlide = 1;
+  if (shiftX < -190) deltaActiveSlide = 2;
+  activeSlide = (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
+  shiftX = 0;
+  shiftY = 0;
+  slideUp();
+})
+
+$(document).on('mousemove', function (event) {
+  if (draggin) {
+    shiftX = event.clientX - startX;
+    shiftY = event.clientY - startY;
+    if (shiftX > 380) shiftX = 380;
+    if (shiftX < -380) shiftX = -380;
+    caruselItem.each(function (index, element) {
+      $(element).css('transform', `translateX(${slideCoord[index] + shiftX}px)`);
+    })
+  }
 })
