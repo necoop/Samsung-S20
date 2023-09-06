@@ -6,6 +6,7 @@ let shiftY = 0;
 const colors = $(".colors li");
 colors.eq(0).addClass("active");
 let activeSlide = 3;
+let colorSliderCanSlide = true;
 
 function slideUp(activeSlide) {
   canSlide = false;
@@ -13,7 +14,7 @@ function slideUp(activeSlide) {
   for (let i = 0; i < caruselItem.length; i++) {
     let currentCoord =
       coordList[
-      (3 - activeSlide + i + caruselItem.length) % caruselItem.length
+        (3 - activeSlide + i + caruselItem.length) % caruselItem.length
       ];
     caruselItem.eq(i).css("transform", `translateX(${currentCoord}px)`);
     //Ставим класс active
@@ -23,9 +24,7 @@ function slideUp(activeSlide) {
       caruselItem.eq(i).removeClass("active");
     }
     //Устанавливаем невидимость
-    if (
-      currentCoord < -950 || currentCoord > 2840
-    ) {
+    if (currentCoord < -950 || currentCoord > 2840) {
       if (caruselItem.eq(i).css("visibility") != "hidden") {
         caruselItem.eq(i).css("visibility", "hidden");
       }
@@ -67,7 +66,8 @@ colors.on("click", function () {
 for (let j = 0; j < 5; j++) {
   for (let i = 0; i < 6; i++) {
     $(".carusel").append(
-      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${activeColor + 1
+      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${
+        activeColor + 1
       } вид ${i + 1}" draggable="false"></li>`
     );
   }
@@ -78,13 +78,19 @@ slideUp(activeSlide);
 //Обработка клика на слайдере
 $(".carusel").on("click", function (event) {
   if (canSlide) {
-    if (event.clientX - event.currentTarget.offsetLeft < 1130) deltaActiveSlide = 2;
-    if (event.clientX - event.currentTarget.offsetLeft < 940) deltaActiveSlide = 1;
-    if (event.clientX - event.currentTarget.offsetLeft < 750) deltaActiveSlide = 0;
-    if (event.clientX - event.currentTarget.offsetLeft < 380) deltaActiveSlide = -1;
-    if (event.clientX - event.currentTarget.offsetLeft < 190) deltaActiveSlide = -2;
+    if (event.clientX - event.currentTarget.offsetLeft < 1130)
+      deltaActiveSlide = 2;
+    if (event.clientX - event.currentTarget.offsetLeft < 940)
+      deltaActiveSlide = 1;
+    if (event.clientX - event.currentTarget.offsetLeft < 750)
+      deltaActiveSlide = 0;
+    if (event.clientX - event.currentTarget.offsetLeft < 380)
+      deltaActiveSlide = -1;
+    if (event.clientX - event.currentTarget.offsetLeft < 190)
+      deltaActiveSlide = -2;
     activeSlide =
-      (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
+      (activeSlide + deltaActiveSlide + caruselItem.length) %
+      caruselItem.length;
     slideUp(activeSlide);
   }
 });
@@ -100,16 +106,23 @@ $(".carusel").on("mousedown", function (event) {
   startY = event.clientY;
 });
 
-$('.carusel').on('touch', function (event) {
+$(".carusel").on("touchstart", function (event) {
   draggin = true;
-  startX = event.clientX;
-  startY = event.clientY;
-  console.log('Прикосновение')
-})
+  startX = event.touches[0].clientX;
+  startY = event.touches[0].clientY;
+});
 
 $(document).on("mouseup", function () {
+  colourSliderMouseUp();
+});
+$(document).on("touchend", function () {
+  colourSliderMouseUp();
+});
+
+function colourSliderMouseUp() {
   draggin = false;
-  $('.carusel').removeClass('grabbing');
+  colorSliderCanSlide = true;
+  $(".carusel").removeClass("grabbing");
   deltaActiveSlide = 0;
   if (shiftX > 80) deltaActiveSlide = -1;
   if (shiftX > 380) deltaActiveSlide = -2;
@@ -128,19 +141,32 @@ $(document).on("mouseup", function () {
   }
   shiftX = 0;
   shiftY = 0;
-});
+}
 
 $(document).on("mousemove", function (event) {
-  if (!draggin) return;
-  $('.carusel').addClass('grabbing');
   shiftX = event.clientX - startX;
   shiftY = event.clientY - startY;
+  colorSliderMouseMove(shiftX, shiftY);
+});
+document.body.addEventListener(
+  "touchmove",
+  function (event) {
+    shiftX = event.touches[0].clientX - startX;
+    shiftY = event.touches[0].clientY - startY;
+    if (Math.abs(shiftX) > Math.abs(shiftY)) {
+      if (event.cancelable) event.preventDefault();
+    } else colorSliderCanSlide = false;
+    colorSliderMouseMove(shiftX, shiftY);
+  },
+  { passive: false }
+);
+
+function colorSliderMouseMove(shiftX, shiftY) {
+  if (!draggin || !colorSliderCanSlide) return;
+  $(".carusel").addClass("grabbing");
   if (shiftX > 1080) shiftX = 1080;
   if (shiftX < -1080) shiftX = -1080;
   caruselItem.each(function (index, element) {
-    $(element).css(
-      "transform",
-      `translateX(${slideCoord[index] + shiftX}px)`
-    );
+    $(element).css("transform", `translateX(${slideCoord[index] + shiftX}px)`);
   });
-});
+}
