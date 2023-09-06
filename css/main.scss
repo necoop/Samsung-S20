@@ -144,9 +144,9 @@ body {
   z-index: 1;
 }
 
-#menu__btn > span,
-#menu__btn > span::before,
-#menu__btn > span::after {
+#menu__btn>span,
+#menu__btn>span::before,
+#menu__btn>span::after {
   display: block;
   position: absolute;
   width: 100%;
@@ -154,12 +154,12 @@ body {
   background-color: #000;
 }
 
-#menu__btn > span::before {
+#menu__btn>span::before {
   content: "";
   top: -8px;
 }
 
-#menu__btn > span::after {
+#menu__btn>span::after {
   content: "";
   top: 8px;
 }
@@ -197,7 +197,7 @@ body {
   text-decoration: none;
 }
 
-#menu__box > :not(:first-child) {
+#menu__box> :not(:first-child) {
   margin-top: 40px;
 }
 
@@ -205,28 +205,28 @@ body {
   position: fixed;
 }
 
-#menu__toggle:checked ~ #menu__btn > span {
+#menu__toggle:checked~#menu__btn>span {
   transform: rotate(45deg);
 }
 
-#menu__toggle:checked ~ #menu__btn > span::before {
+#menu__toggle:checked~#menu__btn>span::before {
   top: 0;
   transform: rotate(0);
 }
 
-#menu__toggle:checked ~ #menu__btn > span::after {
+#menu__toggle:checked~#menu__btn>span::after {
   top: 0;
   transform: rotate(90deg);
 }
 
-#menu__toggle:checked ~ #menu__box {
+#menu__toggle:checked~#menu__box {
   visibility: visible;
   left: 0;
 }
 
-#menu__btn > span,
-#menu__btn > span::before,
-#menu__btn > span::after {
+#menu__btn>span,
+#menu__btn>span::before,
+#menu__btn>span::after {
   transition-duration: 0.25s;
 }
 
@@ -291,10 +291,12 @@ body {
     line-height: normal;
     margin-bottom: 20px;
   }
+
   .ordernow__btn {
     margin: 50px 0 150px;
   }
 }
+
 .ordernow__btn {
   padding: 20px 40px;
   border-radius: 5px;
@@ -304,6 +306,7 @@ body {
   box-sizing: border-box;
   height: 60px;
   width: fit-content;
+
   span {
     margin-right: 10px;
     text-transform: uppercase;
@@ -366,6 +369,7 @@ body {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+
   .front {
     max-height: 580px;
   }
@@ -414,6 +418,7 @@ body {
   .main__title {
     margin-top: 40px;
   }
+
   .ordernow__btn {
     width: 100%;
     display: flex;
@@ -519,6 +524,7 @@ body {
   }
 
   .main {
+
     .back,
     .front {
       width: 76.3%;
@@ -553,9 +559,7 @@ body {
 //   overflow-y: hidden;
 //   margin-right: 17px;
 // }
-.grabbing {
-  cursor: grabbing;
-}
+
 
 .choose__color,
 .screen,
@@ -586,7 +590,7 @@ body {
     margin: 50px auto 0;
   }
 
-  & > img {
+  &>img {
     margin-top: 50px;
     align-self: center;
     width: 1484px;
@@ -595,6 +599,7 @@ body {
 }
 
 @media (max-width: 1199px) {
+
   .choose__color,
   .screen,
   .camera {
@@ -603,13 +608,13 @@ body {
 }
 
 @media (max-width: 775px) {
-  .choose__color > img {
+  .choose__color>img {
     width: 191%;
   }
 }
 
 @media (max-width: 1359px) {
-  .screen > img {
+  .screen>img {
     width: 109%;
   }
 }
@@ -625,6 +630,7 @@ body {
   .camera {
     margin-top: 50px;
   }
+
   .camera img {
     width: 96.7%;
     height: auto;
@@ -634,6 +640,7 @@ body {
 .step__ahead {
   margin-top: 200px;
   max-width: 1470px;
+
   h2 {
     color: var(--dark-purple, #06002b);
     text-align: center;
@@ -684,10 +691,11 @@ body {
   .step__ahead {
     margin-top: 100px;
   }
+
   .processor__and__memory {
     grid-template-columns: 1fr;
 
-    & > * {
+    &>* {
       grid-column: 1;
       justify-self: center;
       max-width: 365px;
@@ -710,6 +718,7 @@ body {
     .memory__description {
       grid-row: 3;
     }
+
     img {
       margin: 20px 0;
     }
@@ -726,12 +735,14 @@ body {
   margin-top: 330px;
   justify-content: end;
   align-items: center;
+
   .phones__order {
     width: 496px;
     height: 330px;
     align-self: self-end;
   }
-  & > span {
+
+  &>span {
     max-width: 449px;
     font-size: 24px;
     font-weight: 300;
@@ -741,50 +752,61 @@ body {
     background-color: rgba(249, 248, 243, 0.6);
     box-shadow: -4px 0px 10px 11px rgba(249, 248, 243, 0.6);
   }
+
   .ordernow__btn {
     margin-right: 23px;
   }
 }
+
 .order1 {
   background: #f9f8f3;
   padding-right: 171px;
 }
+
 .red {
   color: var(--red-notice, #e53125);
   font-size: 36px;
   font-weight: 500;
 }
+
 @media (max-width: 1599px) {
   .order1__box {
     flex-direction: column;
     height: fit-content;
     margin-top: 100px;
     background: none;
+
     .ordernow__btn {
       margin-right: 0;
     }
+
     .phones__order {
       align-self: center;
     }
-    & > span {
+
+    &>span {
       margin: 0 0 20px 0;
       text-align: center;
     }
+
     .phones__order {
       width: 100%;
       height: auto;
     }
   }
+
   .order1 {
     padding-right: 10px;
     max-width: 768px;
   }
 }
+
 //Секция order1 окончание
 
 //Секция view
 .view {
   margin-top: 200px;
+
   h2 {
     color: var(--Dark-purple, #06002b);
     text-align: center;
@@ -792,64 +814,75 @@ body {
     font-weight: 300;
     line-height: normal;
   }
+
   .carusel {
     width: 1130px;
     height: 500px;
     margin: 80px auto;
     position: relative;
     overflow-x: hidden;
-    & > * {
+
+    &>* {
       position: absolute;
       bottom: 0;
       width: 190px;
-      box-sizing: border-box;
-      border: 1px solid black;
-      img{
+
+      img {
         width: 100%;
       }
-      &.active{
+
+      &.active {
         width: 370px;
       }
-      cursor: pointer;
     }
   }
+
   .color__selection {
     margin: 80px auto;
+
     .colors {
       display: flex;
       justify-content: center;
       gap: 20px;
       align-items: center;
       height: 30px;
-      & > li {
+
+      &>li {
         width: 20px;
         height: 20px;
         border-radius: 50%;
         transition: 0.3s ease all;
         cursor: pointer;
       }
-      & > li.active {
+
+      &>li.active {
         width: 30px;
         height: 30px;
         border-radius: 10px;
       }
-      & > :nth-child(1) {
+
+      &> :nth-child(1) {
         border: 1px solid var(--Light-Grey, #737373);
         background: #fff;
       }
-      & > :nth-child(2) {
+
+      &> :nth-child(2) {
         background: #002d79;
       }
-      & > :nth-child(3) {
+
+      &> :nth-child(3) {
         background: #8ddeb6;
       }
-      & > :nth-child(4) {
+
+      &> :nth-child(4) {
         background: #ecc3ef;
       }
     }
   }
 }
-.span_test{
-  display: inline-block;
-  text-align: center;
+.carusel{
+  cursor: pointer;
+}
+.grabbing {
+  cursor: grabbing;
 }

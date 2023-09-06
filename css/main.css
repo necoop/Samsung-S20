@@ -497,10 +497,6 @@ body {
   overflow-y: hidden;
 }
 
-.grabbing {
-  cursor: grabbing;
-}
-
 .choose__color,
 .screen,
 .camera {
@@ -736,9 +732,6 @@ body {
   position: absolute;
   bottom: 0;
   width: 190px;
-  box-sizing: border-box;
-  border: 1px solid black;
-  cursor: pointer;
 }
 .view .carusel > * img {
   width: 100%;
@@ -782,7 +775,10 @@ body {
   background: #ecc3ef;
 }
 
-.span_test {
-  display: inline-block;
-  text-align: center;
+.carusel {
+  cursor: pointer;
+}
+
+.grabbing {
+  cursor: grabbing;
 }/*# sourceMappingURL=main.css.map */
