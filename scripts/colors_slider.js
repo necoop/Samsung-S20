@@ -1,4 +1,4 @@
-let canSlide = true;
+// let canSlide = true;
 let slideCoord = [];
 let deltaActiveSlide = 0;
 let shiftX = 0;
@@ -7,14 +7,14 @@ const colors = $(".colors li");
 colors.eq(0).addClass("active");
 let activeSlide = 3;
 let colorSliderCanSlide = true;
+let fromClick = true;
 
 function slideUp(activeSlide) {
-  canSlide = false;
   caruselItem.css("transition", ".3s ease all");
   for (let i = 0; i < caruselItem.length; i++) {
     let currentCoord =
       coordList[
-        (3 - activeSlide + i + caruselItem.length) % caruselItem.length
+      (3 - activeSlide + i + caruselItem.length) % caruselItem.length
       ];
     caruselItem.eq(i).css("transform", `translateX(${currentCoord}px)`);
     //Ставим класс active
@@ -33,10 +33,11 @@ function slideUp(activeSlide) {
     }
     slideCoord[i] = currentCoord;
   }
-  caruselItem.eq(caruselItem.length - 1).one("transitionend", function () {
+  shiftX = 0;
+  setTimeout(function () {
+    fromClick = true;
     caruselItem.css("transition", "none");
-    canSlide = true;
-  });
+  }, 300)
 }
 
 //Задаём активный цвет
@@ -66,8 +67,7 @@ colors.on("click", function () {
 for (let j = 0; j < 5; j++) {
   for (let i = 0; i < 6; i++) {
     $(".carusel").append(
-      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${
-        activeColor + 1
+      `<li><img src="./img/view/color1_${i + 1}.png" alt="Фото телефона цвет ${activeColor + 1
       } вид ${i + 1}" draggable="false"></li>`
     );
   }
@@ -77,22 +77,21 @@ slideUp(activeSlide);
 
 //Обработка клика на слайдере
 $(".carusel").on("click", function (event) {
-  if (canSlide) {
-    if (event.clientX - event.currentTarget.offsetLeft < 1130)
-      deltaActiveSlide = 2;
-    if (event.clientX - event.currentTarget.offsetLeft < 940)
-      deltaActiveSlide = 1;
-    if (event.clientX - event.currentTarget.offsetLeft < 750)
-      deltaActiveSlide = 0;
-    if (event.clientX - event.currentTarget.offsetLeft < 380)
-      deltaActiveSlide = -1;
-    if (event.clientX - event.currentTarget.offsetLeft < 190)
-      deltaActiveSlide = -2;
-    activeSlide =
-      (activeSlide + deltaActiveSlide + caruselItem.length) %
-      caruselItem.length;
-    slideUp(activeSlide);
-  }
+  if (!fromClick) return;
+  if (event.clientX - event.currentTarget.offsetLeft < 1130)
+    deltaActiveSlide = 2;
+  if (event.clientX - event.currentTarget.offsetLeft < 940)
+    deltaActiveSlide = 1;
+  if (event.clientX - event.currentTarget.offsetLeft < 750)
+    deltaActiveSlide = 0;
+  if (event.clientX - event.currentTarget.offsetLeft < 380)
+    deltaActiveSlide = -1;
+  if (event.clientX - event.currentTarget.offsetLeft < 190)
+    deltaActiveSlide = -2;
+  activeSlide =
+    (activeSlide + deltaActiveSlide + caruselItem.length) %
+    caruselItem.length;
+  slideUp(activeSlide);
 });
 
 //Обработка Drag&Drop
@@ -136,16 +135,15 @@ function colourSliderMouseUp() {
   if (shiftX < -960) deltaActiveSlide = 5;
   activeSlide =
     (activeSlide + deltaActiveSlide + caruselItem.length) % caruselItem.length;
-  if (shiftX) {
-    slideUp(activeSlide);
-  }
-  shiftX = 0;
+  if (shiftX) slideUp(activeSlide);
   shiftY = 0;
 }
 
 $(document).on("mousemove", function (event) {
+  if (!draggin) return;
   shiftX = event.clientX - startX;
   shiftY = event.clientY - startY;
+  $(".carusel").addClass("grabbing");
   colorSliderMouseMove(shiftX, shiftY);
 });
 document.body.addEventListener(
@@ -163,7 +161,7 @@ document.body.addEventListener(
 
 function colorSliderMouseMove(shiftX, shiftY) {
   if (!draggin || !colorSliderCanSlide) return;
-  $(".carusel").addClass("grabbing");
+  fromClick = false;
   if (shiftX > 1080) shiftX = 1080;
   if (shiftX < -1080) shiftX = -1080;
   caruselItem.each(function (index, element) {
