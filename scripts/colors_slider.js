@@ -123,12 +123,12 @@ function colourSliderMouseUp() {
   colorSliderCanSlide = true;
   $(".carusel").removeClass("grabbing");
   deltaActiveSlide = 0;
-  if (shiftX > 80) deltaActiveSlide = -1;
+  if (shiftX > 60) deltaActiveSlide = -1;
   if (shiftX > 380) deltaActiveSlide = -2;
   if (shiftX > 580) deltaActiveSlide = -3;
   if (shiftX > 760) deltaActiveSlide = -4;
   if (shiftX > 960) deltaActiveSlide = -5;
-  if (shiftX < -80) deltaActiveSlide = 1;
+  if (shiftX < -60) deltaActiveSlide = 1;
   if (shiftX < -380) deltaActiveSlide = 2;
   if (shiftX < -580) deltaActiveSlide = 3;
   if (shiftX < -760) deltaActiveSlide = 4;

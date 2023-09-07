@@ -144,9 +144,9 @@ body {
   z-index: 1;
 }
 
-#menu__btn>span,
-#menu__btn>span::before,
-#menu__btn>span::after {
+#menu__btn > span,
+#menu__btn > span::before,
+#menu__btn > span::after {
   display: block;
   position: absolute;
   width: 100%;
@@ -154,12 +154,12 @@ body {
   background-color: #000;
 }
 
-#menu__btn>span::before {
+#menu__btn > span::before {
   content: "";
   top: -8px;
 }
 
-#menu__btn>span::after {
+#menu__btn > span::after {
   content: "";
   top: 8px;
 }
@@ -197,7 +197,7 @@ body {
   text-decoration: none;
 }
 
-#menu__box> :not(:first-child) {
+#menu__box > :not(:first-child) {
   margin-top: 40px;
 }
 
@@ -205,28 +205,28 @@ body {
   position: fixed;
 }
 
-#menu__toggle:checked~#menu__btn>span {
+#menu__toggle:checked ~ #menu__btn > span {
   transform: rotate(45deg);
 }
 
-#menu__toggle:checked~#menu__btn>span::before {
+#menu__toggle:checked ~ #menu__btn > span::before {
   top: 0;
   transform: rotate(0);
 }
 
-#menu__toggle:checked~#menu__btn>span::after {
+#menu__toggle:checked ~ #menu__btn > span::after {
   top: 0;
   transform: rotate(90deg);
 }
 
-#menu__toggle:checked~#menu__box {
+#menu__toggle:checked ~ #menu__box {
   visibility: visible;
   left: 0;
 }
 
-#menu__btn>span,
-#menu__btn>span::before,
-#menu__btn>span::after {
+#menu__btn > span,
+#menu__btn > span::before,
+#menu__btn > span::after {
   transition-duration: 0.25s;
 }
 
@@ -524,7 +524,6 @@ body {
   }
 
   .main {
-
     .back,
     .front {
       width: 76.3%;
@@ -560,7 +559,6 @@ body {
 //   margin-right: 17px;
 // }
 
-
 .choose__color,
 .screen,
 .camera {
@@ -590,7 +588,7 @@ body {
     margin: 50px auto 0;
   }
 
-  &>img {
+  & > img {
     margin-top: 50px;
     align-self: center;
     width: 1484px;
@@ -599,7 +597,6 @@ body {
 }
 
 @media (max-width: 1199px) {
-
   .choose__color,
   .screen,
   .camera {
@@ -608,13 +605,13 @@ body {
 }
 
 @media (max-width: 775px) {
-  .choose__color>img {
+  .choose__color > img {
     width: 191%;
   }
 }
 
 @media (max-width: 1359px) {
-  .screen>img {
+  .screen > img {
     width: 109%;
   }
 }
@@ -695,7 +692,7 @@ body {
   .processor__and__memory {
     grid-template-columns: 1fr;
 
-    &>* {
+    & > * {
       grid-column: 1;
       justify-self: center;
       max-width: 365px;
@@ -742,7 +739,7 @@ body {
     align-self: self-end;
   }
 
-  &>span {
+  & > span {
     max-width: 449px;
     font-size: 24px;
     font-weight: 300;
@@ -784,7 +781,7 @@ body {
       align-self: center;
     }
 
-    &>span {
+    & > span {
       margin: 0 0 20px 0;
       text-align: center;
     }
@@ -818,11 +815,11 @@ body {
   .carusel {
     width: 1130px;
     height: 500px;
-    margin: 80px auto;
+    margin: 0 auto;
     position: relative;
     overflow-x: hidden;
 
-    &>* {
+    & > * {
       position: absolute;
       bottom: 0;
       width: 190px;
@@ -836,7 +833,33 @@ body {
       }
     }
   }
-
+  .color__slider__container {
+    margin: 80px auto;
+    position: relative;
+    height: 500px;
+    overflow-x: hidden;
+  }
+  @media (max-width: 1190px) {
+    .color__slider__container {
+      width: 760px;
+    }
+    .carusel{
+      margin: 0 auto 0 -190px;
+    }
+  }
+  @media(max-width:820px){
+    .color__slider__container {
+      width: 570px;
+    }
+    .carusel{
+      margin: 0 auto 0 -380px;
+    }
+  }
+  @media(max-width: 500px){
+    .color__slider__container {
+      width: 380px;
+    }
+  }
   .color__selection {
     margin: 80px auto;
 
@@ -847,7 +870,7 @@ body {
       align-items: center;
       height: 30px;
 
-      &>li {
+      & > li {
         width: 20px;
         height: 20px;
         border-radius: 50%;
@@ -855,32 +878,32 @@ body {
         cursor: pointer;
       }
 
-      &>li.active {
+      & > li.active {
         width: 30px;
         height: 30px;
         border-radius: 10px;
       }
 
-      &> :nth-child(1) {
+      & > :nth-child(1) {
         border: 1px solid var(--Light-Grey, #737373);
         background: #fff;
       }
 
-      &> :nth-child(2) {
+      & > :nth-child(2) {
         background: #002d79;
       }
 
-      &> :nth-child(3) {
+      & > :nth-child(3) {
         background: #8ddeb6;
       }
 
-      &> :nth-child(4) {
+      & > :nth-child(4) {
         background: #ecc3ef;
       }
     }
   }
 }
-.carusel{
+.carusel {
   cursor: pointer;
 }
 .grabbing {
